@@ -11,70 +11,8 @@
   ],
   "rewrites": [
     {
-      "source": "/manifest.json",
-      "destination": "/manifest.json"
-    },
-    {
-      "source": "/icon-192x192.svg",
-      "destination": "/icon-192x192.svg"
-    },
-    {
-      "source": "/icon-512x512.svg",
-      "destination": "/icon-512x512.svg"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/manifest.json",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/json"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        }
-      ]
-    },
-    {
-      "source": "/icon-192x192.svg",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/svg+xml"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400"
-        }
-      ]
-    },
-    {
-      "source": "/icon-512x512.svg",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/svg+xml"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
     }
   ]
 }
