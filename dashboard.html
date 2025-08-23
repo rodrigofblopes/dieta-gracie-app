@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥋 Dashboard - Dieta Gracie</title>
+    <link rel="manifest" href="public/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .metric-card {
+            transition: transform 0.2s;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow mb-4 sm:mb-6">
+            <div class="flex flex-wrap border-b overflow-x-auto">
+                <a href="dashboard.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 border-b-2 border-blue-600 text-blue-600 bg-blue-50 text-sm sm:text-base whitespace-nowrap">
+                    📊 Dashboard
+                </a>
+                <a href="ingredientes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    ➕ Ingredientes
+                </a>
+                <a href="refeicoes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    🎯 Refeições
+                </a>
+                <a href="receitas.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    👨‍🍳 Receitas
+                </a>
+                <a href="historico.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📅 Histórico
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="space-y-4 sm:space-y-6">
+            <!-- Header Principal -->
+            <div class="gradient-bg text-white p-4 sm:p-6 rounded-lg">
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">🥋 Dieta Gracie - Ganho de Massa</h2>
+                <p class="text-blue-100 text-sm sm:text-base">Controle completo da sua alimentação para hipertrofia</p>
+            </div>
+
+            <!-- Métricas Principais -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+                <div class="bg-white p-3 sm:p-4 rounded-lg shadow border-l-4 border-red-500 metric-card">
+                    <h3 class="font-semibold text-gray-700 text-xs sm:text-sm">Calorias Hoje</h3>
+                    <p class="text-lg sm:text-2xl font-bold text-red-600" id="calorias-hoje">0</p>
+                    <p class="text-xs sm:text-sm text-gray-500">Meta: 2800-3200 kcal</p>
+                </div>
+                
+                <div class="bg-white p-3 sm:p-4 rounded-lg shadow border-l-4 border-blue-500 metric-card">
+                    <h3 class="font-semibold text-gray-700 text-xs sm:text-sm">Proteína</h3>
+                    <p class="text-lg sm:text-2xl font-bold text-blue-600" id="proteina-hoje">0g</p>
+                    <p class="text-xs sm:text-sm text-gray-500">Meta: 140-180g</p>
+                </div>
+                
+                <div class="bg-white p-3 sm:p-4 rounded-lg shadow border-l-4 border-green-500 metric-card">
+                    <h3 class="font-semibold text-gray-700 text-xs sm:text-sm">Carboidratos</h3>
+                    <p class="text-lg sm:text-2xl font-bold text-green-600" id="carbs-hoje">0g</p>
+                    <p class="text-xs sm:text-sm text-gray-500">Meta: 280-320g</p>
+                </div>
+                
+                <div class="bg-white p-3 sm:p-4 rounded-lg shadow border-l-4 border-yellow-500 metric-card">
+                    <h3 class="font-semibold text-gray-700 text-xs sm:text-sm">Gorduras</h3>
+                    <p class="text-lg sm:text-2xl font-bold text-yellow-600" id="gorduras-hoje">0g</p>
+                    <p class="text-xs sm:text-sm text-gray-500">Meta: 70-90g</p>
+                </div>
+            </div>
+
+            <!-- Calendário Interativo -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">📅 Calendário de Refeições</h3>
+                
+                <!-- Controles do Calendário -->
+                <div class="flex justify-between items-center mb-3 sm:mb-4">
+                    <button onclick="mesAnterior()" class="bg-gray-200 hover:bg-gray-300 px-2 sm:px-3 py-1 rounded text-sm sm:text-base">
+                        ←
+                    </button>
+                    <h4 class="font-medium text-sm sm:text-base" id="mes-atual">Janeiro 2024</h4>
+                    <button onclick="mesProximo()" class="bg-gray-200 hover:bg-gray-300 px-2 sm:px-3 py-1 rounded text-sm sm:text-base">
+                        →
+                    </button>
+                </div>
+                
+                <!-- Calendário -->
+                <div class="mb-4 sm:mb-6">
+                    <div class="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm font-medium mb-2">
+                        <div class="p-1 sm:p-2">Dom</div>
+                        <div class="p-1 sm:p-2">Seg</div>
+                        <div class="p-1 sm:p-2">Ter</div>
+                        <div class="p-1 sm:p-2">Qua</div>
+                        <div class="p-1 sm:p-2">Qui</div>
+                        <div class="p-1 sm:p-2">Sex</div>
+                        <div class="p-1 sm:p-2">Sáb</div>
+                    </div>
+                    <div id="calendario-grid" class="grid grid-cols-7 gap-1">
+                        <!-- Dias serão inseridos aqui via JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Refeições do Dia Selecionado -->
+                <div class="border-t pt-3 sm:pt-4">
+                    <h4 class="font-medium mb-2 sm:mb-3 text-sm sm:text-base">
+                        Refeições de <span id="dia-selecionado">Hoje</span>
+                        (<span id="num-refeicoes-dia">0</span>)
+                    </h4>
+                    <div id="refeicoes-dia" class="space-y-2 sm:space-y-3">
+                        <p class="text-gray-500 text-center py-3 sm:py-4 text-sm">Selecione um dia no calendário para ver as refeições</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais para o calendário
+        let dataAtual = new Date(); // Data atual
+        let mesAtual = dataAtual.getMonth();
+        let anoAtual = dataAtual.getFullYear();
+        let diaSelecionado = dataAtual.toISOString().split('T')[0];
+
+                // Função para atualizar data atual
+        function atualizarDataAtual() {
+            dataAtual = new Date();
+            mesAtual = dataAtual.getMonth();
+            anoAtual = dataAtual.getFullYear();
+            diaSelecionado = dataAtual.toISOString().split('T')[0];
+            console.log('Data atualizada:', dataAtual);
+            console.log('Mês:', mesAtual, 'Ano:', anoAtual);
+        }
+
+        // Carregar dados do localStorage
+        function carregarDados() {
+            const dados = JSON.parse(localStorage.getItem('dadosNutricionais') || '{}');
+            const hoje = new Date().toISOString().split('T')[0];
+            const refeicoesHoje = dados[hoje] || [];
+            
+            // Calcular totais
+            let totais = { calorias: 0, proteina: 0, carbs: 0, gorduras: 0 };
+            refeicoesHoje.forEach(refeicao => {
+                totais.calorias += refeicao.calorias || 0;
+                totais.proteina += refeicao.proteina || 0;
+                totais.carbs += refeicao.carbs || 0;
+                totais.gorduras += refeicao.gorduras || 0;
+            });
+            
+            // Atualizar métricas
+            document.getElementById('calorias-hoje').textContent = Math.round(totais.calorias);
+            document.getElementById('proteina-hoje').textContent = Math.round(totais.proteina) + 'g';
+            document.getElementById('carbs-hoje').textContent = Math.round(totais.carbs) + 'g';
+            document.getElementById('gorduras-hoje').textContent = Math.round(totais.gorduras) + 'g';
+            document.getElementById('num-refeicoes').textContent = refeicoesHoje.length;
+        }
+
+        // Funções do calendário
+        function mesAnterior() {
+            mesAtual--;
+            if (mesAtual < 0) {
+                mesAtual = 11;
+                anoAtual--;
+            }
+            renderizarCalendario();
+        }
+
+        function mesProximo() {
+            mesAtual++;
+            if (mesAtual > 11) {
+                mesAtual = 0;
+                anoAtual++;
+            }
+            renderizarCalendario();
+        }
+
+        function selecionarDia(dataStr) {
+            diaSelecionado = dataStr;
+            renderizarCalendario();
+            mostrarRefeicoesDia(dataStr);
+        }
+
+        function renderizarCalendario() {
+            const dados = JSON.parse(localStorage.getItem('dadosNutricionais') || '{}');
+            const grid = document.getElementById('calendario-grid');
+            const mesAtualElement = document.getElementById('mes-atual');
+            
+            // Debug: verificar valores atuais
+            console.log('Mês atual:', mesAtual, 'Ano atual:', anoAtual);
+            
+            // Atualizar título do mês
+            const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            mesAtualElement.textContent = `${meses[mesAtual]} ${anoAtual}`;
+            
+            // Calcular primeiro dia do mês
+            const primeiroDia = new Date(anoAtual, mesAtual, 1);
+            const ultimoDia = new Date(anoAtual, mesAtual + 1, 0);
+            const diaSemanaInicio = primeiroDia.getDay();
+            const totalDias = ultimoDia.getDate();
+            
+            let html = '';
+            
+            // Dias vazios no início
+            for (let i = 0; i < diaSemanaInicio; i++) {
+                html += '<div class="p-2 text-gray-300"></div>';
+            }
+            
+            // Dias do mês
+            for (let dia = 1; dia <= totalDias; dia++) {
+                const dataStr = `${anoAtual}-${String(mesAtual + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+                const refeicoes = dados[dataStr] || [];
+                const hoje = new Date().toISOString().split('T')[0];
+                const selecionado = dataStr === diaSelecionado;
+                
+                let classes = 'p-1 sm:p-2 text-center cursor-pointer rounded hover:bg-gray-100 text-xs sm:text-sm';
+                let indicador = '';
+                
+                if (refeicoes.length > 0) {
+                    classes += ' bg-green-100 text-green-800 font-medium';
+                    indicador = `<div class="text-xs text-green-600">${refeicoes.length}</div>`;
+                }
+                
+                if (dataStr === hoje) {
+                    classes += ' bg-blue-100 text-blue-800 font-bold';
+                }
+                
+                if (selecionado) {
+                    classes += ' bg-blue-500 text-white';
+                    if (refeicoes.length > 0) {
+                        classes = classes.replace('bg-green-100', '').replace('text-green-800', '');
+                        indicador = `<div class="text-xs text-blue-200">${refeicoes.length}</div>`;
+                    }
+                }
+                
+                html += `
+                    <div class="${classes}" onclick="selecionarDia('${dataStr}')">
+                        <div>${dia}</div>
+                        ${indicador}
+                    </div>
+                `;
+            }
+            
+            grid.innerHTML = html;
+        }
+
+        function mostrarRefeicoesDia(dataStr) {
+            const dados = JSON.parse(localStorage.getItem('dadosNutricionais') || '{}');
+            const refeicoes = dados[dataStr] || [];
+            const container = document.getElementById('refeicoes-dia');
+            const diaSelecionadoElement = document.getElementById('dia-selecionado');
+            const numRefeicoesElement = document.getElementById('num-refeicoes-dia');
+            
+            // Formatar data
+            const data = new Date(dataStr + 'T00:00:00');
+            const hoje = new Date().toISOString().split('T')[0];
+            
+            if (dataStr === hoje) {
+                diaSelecionadoElement.textContent = 'Hoje';
+            } else {
+                diaSelecionadoElement.textContent = data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long'
+                });
+            }
+            
+            numRefeicoesElement.textContent = refeicoes.length;
+            
+            if (refeicoes.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-4">Nenhuma refeição registrada neste dia</p>';
+            } else {
+                // Calcular totais do dia
+                const totais = refeicoes.reduce((total, refeicao) => {
+                    return {
+                        calorias: total.calorias + (refeicao.calorias || 0),
+                        proteina: total.proteina + (refeicao.proteina || 0),
+                        carbs: total.carbs + (refeicao.carbs || 0),
+                        gordura: total.gordura + (refeicao.gordura || 0)
+                    };
+                }, { calorias: 0, proteina: 0, carbs: 0, gordura: 0 });
+                
+                                 container.innerHTML = `
+                     <div class="bg-gray-50 p-2 sm:p-3 rounded mb-3 sm:mb-4">
+                         <h5 class="font-medium mb-1 sm:mb-2 text-sm">Resumo do Dia:</h5>
+                         <div class="grid grid-cols-2 gap-1 sm:gap-2 text-xs sm:text-sm">
+                             <div>Calorias: <strong>${Math.round(totais.calorias)}</strong></div>
+                             <div>Proteína: <strong>${Math.round(totais.proteina)}g</strong></div>
+                             <div>Carbs: <strong>${Math.round(totais.carbs)}g</strong></div>
+                             <div>Gordura: <strong>${Math.round(totais.gordura)}g</strong></div>
+                         </div>
+                     </div>
+                     ${refeicoes.map(refeicao => `
+                         <div class="border rounded-lg p-3 sm:p-4">
+                             <div class="flex justify-between items-center mb-1 sm:mb-2">
+                                 <span class="font-medium text-sm sm:text-base">🕐 ${refeicao.horario}</span>
+                                 <span class="text-xs sm:text-sm text-gray-500">${Math.round(refeicao.calorias)} kcal</span>
+                             </div>
+                             <div class="text-xs sm:text-sm text-gray-600">${refeicao.alimentos.join(', ')}</div>
+                         </div>
+                     `).join('')}
+                 `;
+            }
+        }
+        
+        // Inicializar
+        console.log('Inicializando calendário...');
+        atualizarDataAtual(); // Força atualização da data atual
+        
+        carregarDados();
+        renderizarCalendario();
+        mostrarRefeicoesDia(diaSelecionado);
+    </script>
+</body>
+</html>

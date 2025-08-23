@@ -1,29 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🥋 Dieta Gracie - App Nutricional</title>
-    
-    <!-- PWA Meta Tags -->
-    <meta name="description" content="Aplicativo para controle nutricional baseado na Dieta Gracie" />
-    <meta name="theme-color" content="#2563eb" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Dieta Gracie" />
-    
-    <!-- Manifest -->
-    <link rel="manifest" href="/manifest.json" />
-    
-    <!-- Icons -->
-    <link rel="apple-touch-icon" href="/icon-192x192.svg" />
-    <link rel="icon" type="image/svg+xml" sizes="192x192" href="/icon-192x192.svg" />
-    <link rel="icon" type="image/svg+xml" sizes="512x512" href="/icon-512x512.svg" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥋 Dieta Gracie - Aplicativo de Nutrição</title>
+    <link rel="manifest" href="public/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="gradient-bg text-white p-8 rounded-lg mb-8">
+                <h1 class="text-4xl font-bold mb-4">🥋 Dieta Gracie</h1>
+                <p class="text-xl text-blue-100">Aplicativo Completo de Nutrição para Ganho de Massa</p>
+                <p class="text-blue-200 mt-2">Controle total da sua alimentação seguindo os princípios da Dieta Gracie</p>
+            </div>
+        </div>
+
+        <!-- Cards de Navegação -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <a href="dashboard.html" class="bg-white p-6 rounded-lg shadow card-hover">
+                <div class="text-3xl mb-4">📊</div>
+                <h3 class="text-xl font-semibold mb-2">Dashboard</h3>
+                <p class="text-gray-600">Visão geral das suas métricas nutricionais e calendário interativo</p>
+            </a>
+            
+            <a href="ingredientes.html" class="bg-white p-6 rounded-lg shadow card-hover">
+                <div class="text-3xl mb-4">➕</div>
+                <h3 class="text-xl font-semibold mb-2">Ingredientes</h3>
+                <p class="text-gray-600">Banco de alimentos e adicionar novos ingredientes</p>
+            </a>
+            
+            <a href="refeicoes.html" class="bg-white p-6 rounded-lg shadow card-hover">
+                <div class="text-3xl mb-4">🎯</div>
+                <h3 class="text-xl font-semibold mb-2">Refeições</h3>
+                <p class="text-gray-600">Construir e salvar suas refeições personalizadas</p>
+            </a>
+            
+            <a href="receitas.html" class="bg-white p-6 rounded-lg shadow card-hover">
+                <div class="text-3xl mb-4">👨‍🍳</div>
+                <h3 class="text-xl font-semibold mb-2">Receitas</h3>
+                <p class="text-gray-600">Receitas da Dieta Gracie para ganho de massa</p>
+            </a>
+            
+            <a href="historico.html" class="bg-white p-6 rounded-lg shadow card-hover">
+                <div class="text-3xl mb-4">📅</div>
+                <h3 class="text-xl font-semibold mb-2">Histórico</h3>
+                <p class="text-gray-600">Todas as suas refeições registradas e estatísticas</p>
+            </a>
+        </div>
+
+        <!-- Destaque do Lanche Especial -->
+        <div class="bg-gradient-to-r from-green-500 to-blue-500 rounded-lg p-8 text-white mb-8">
+            <h2 class="text-2xl font-bold mb-4">🍎 Lanche da Tarde Especial</h2>
+            <p class="mb-4">Combinação poderosa: <strong>Quinoa + Abacate + Açaí</strong></p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-white/20 rounded-lg p-4 text-center">
+                    <div class="text-2xl mb-2">🌾</div>
+                    <div class="font-bold">Quinoa (100g)</div>
+                    <div class="text-sm opacity-75">Proteína completa</div>
+                </div>
+                <div class="bg-white/20 rounded-lg p-4 text-center">
+                    <div class="text-2xl mb-2">🥑</div>
+                    <div class="font-bold">Abacate (80g)</div>
+                    <div class="text-sm opacity-75">Gordura saudável</div>
+                </div>
+                <div class="bg-white/20 rounded-lg p-4 text-center">
+                    <div class="text-2xl mb-2">🫐</div>
+                    <div class="font-bold">Açaí (100g)</div>
+                    <div class="text-sm opacity-75">Antioxidantes</div>
+                </div>
+            </div>
+            <a href="receitas.html" class="bg-white text-green-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100">
+                Ver Receita Completa →
+            </a>
+        </div>
+
+        <!-- Princípios da Dieta Gracie -->
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-amber-800 mb-4">🥋 Princípios da Dieta Gracie</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-medium text-amber-700 mb-2">✅ Combinações Permitidas:</h4>
+                    <ul class="text-sm text-amber-600 space-y-1">
+                        <li>• Proteínas + Carboidratos complexos</li>
+                        <li>• Gorduras + Proteínas</li>
+                        <li>• Frutas + Gorduras</li>
+                        <li>• Vegetais + Qualquer grupo</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-amber-700 mb-2">❌ Combinações Evitadas:</h4>
+                    <ul class="text-sm text-amber-600 space-y-1">
+                        <li>• Frutas ácidas + Proteínas</li>
+                        <li>• Carboidratos simples + Proteínas</li>
+                        <li>• Múltiplas proteínas na mesma refeição</li>
+                        <li>• Frutas + Carboidratos simples</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão de Acesso Rápido -->
+        <div class="text-center mt-8">
+            <a href="dashboard.html" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 inline-flex items-center gap-2">
+                🚀 Começar Agora
+            </a>
+        </div>
+    </div>
+</body>
 </html>

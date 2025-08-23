@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Refeições - Dieta Gracie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow mb-4 sm:mb-6">
+            <div class="flex flex-wrap border-b overflow-x-auto">
+                <a href="dashboard.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📊 Dashboard
+                </a>
+                <a href="ingredientes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    ➕ Ingredientes
+                </a>
+                <a href="refeicoes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 border-b-2 border-blue-600 text-blue-600 bg-blue-50 text-sm sm:text-base whitespace-nowrap">
+                    🎯 Refeições
+                </a>
+                <a href="receitas.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    👨‍🍳 Receitas
+                </a>
+                <a href="historico.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📅 Histórico
+                </a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-4 sm:space-y-6">
+            <!-- Construir Refeição -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-base sm:text-lg font-semibold mb-4">🍽️ Construir Refeição</h3>
+                
+                <!-- Informações da Refeição -->
+                <div class="bg-blue-50 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6">
+                    <h4 class="font-semibold text-blue-800 mb-2 text-sm sm:text-base">📅 Informações da Refeição</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-blue-700 mb-1">Data:</label>
+                            <input
+                                type="date"
+                                id="data-refeicao"
+                                class="w-full px-3 py-2 border border-blue-300 rounded-lg text-sm"
+                                value=""
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-blue-700 mb-1">Horário:</label>
+                            <input
+                                type="time"
+                                id="horario-refeicao"
+                                class="w-full px-3 py-2 border border-blue-300 rounded-lg text-sm"
+                                value=""
+                            />
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Refeição Atual -->
+                <div id="refeicao-atual" class="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-50 rounded-lg border border-green-200" style="display: none;">
+                    <h4 class="font-semibold mb-3 text-green-800">🥗 Refeição Atual:</h4>
+                    <div id="itens-refeicao" class="space-y-2">
+                        <!-- Itens serão inseridos aqui -->
+                    </div>
+                    
+                    <!-- Resumo Nutricional -->
+                    <div class="mt-4 p-3 bg-white rounded border">
+                        <h5 class="font-semibold mb-2 text-sm">📊 Resumo Nutricional:</h5>
+                        <div id="resumo-nutricional" class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs sm:text-sm">
+                            <!-- Resumo será calculado aqui -->
+                        </div>
+                    </div>
+                    
+                    <button
+                        onclick="salvarRefeicao()"
+                        class="mt-4 bg-green-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2 text-sm sm:text-base"
+                    >
+                        💾 Salvar Refeição
+                    </button>
+                </div>
+
+                <!-- Grid de Ingredientes -->
+                <div id="grid-ingredientes" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                    <!-- Ingredientes serão inseridos aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados padrão dos ingredientes (baseados no Insumos.csv)
+        const ingredientesPadrao = [
+            { id: 1, name: 'Peito de Frango', category: 'Proteína', calories: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0 },
+            { id: 2, name: 'Fígado Bovino', category: 'Proteína', calories: 135, protein: 20, carbs: 3.9, fat: 3.6, fiber: 0 },
+            { id: 3, name: 'Contra-Filé', category: 'Proteína', calories: 250, protein: 26, carbs: 0, fat: 15, fiber: 0 },
+            { id: 4, name: 'Quinoa Grão Mix', category: 'Carboidrato', calories: 120, protein: 4.4, carbs: 21.3, fat: 1.9, fiber: 2.8 },
+            { id: 5, name: 'Aveia em Flocos', category: 'Carboidrato', calories: 389, protein: 16.9, carbs: 66, fat: 6.9, fiber: 10.6 },
+            { id: 6, name: 'Farelo de Aveia', category: 'Carboidrato', calories: 246, protein: 17.3, carbs: 66, fat: 7, fiber: 15.4 },
+            { id: 7, name: 'Nozes', category: 'Gordura', calories: 654, protein: 15, carbs: 14, fat: 65, fiber: 6.7 },
+            { id: 8, name: 'Amendoim Torrado', category: 'Gordura', calories: 567, protein: 25.8, carbs: 16, fat: 49, fiber: 8.5 },
+            { id: 9, name: 'Farinha de Aveia', category: 'Carboidrato', calories: 389, protein: 16.9, carbs: 66, fat: 6.9, fiber: 10.6 },
+            { id: 10, name: 'Quinoa Urbano', category: 'Carboidrato', calories: 120, protein: 4.4, carbs: 21.3, fat: 1.9, fiber: 2.8 },
+            { id: 11, name: 'Ovos', category: 'Proteína', calories: 155, protein: 13, carbs: 1.1, fat: 11, fiber: 0 },
+            { id: 12, name: 'Castanha do Pará', category: 'Gordura', calories: 656, protein: 14, carbs: 12, fat: 66, fiber: 7.5 },
+            { id: 13, name: 'Amendoim Cru', category: 'Gordura', calories: 567, protein: 25.8, carbs: 16, fat: 49, fiber: 8.5 },
+            { id: 14, name: 'Sardinha', category: 'Proteína', calories: 208, protein: 24, carbs: 0, fat: 12, fiber: 0 },
+            { id: 15, name: 'Atum', category: 'Proteína', calories: 144, protein: 30, carbs: 0, fat: 1, fiber: 0 },
+            { id: 16, name: 'Batata Doce', category: 'Carboidrato', calories: 86, protein: 1.6, carbs: 20, fat: 0.1, fiber: 3 },
+            { id: 17, name: 'Batata Doce Roxa', category: 'Carboidrato', calories: 86, protein: 1.6, carbs: 20, fat: 0.1, fiber: 3 },
+            { id: 18, name: 'Cenoura', category: 'Vegetal', calories: 41, protein: 0.9, carbs: 10, fat: 0.2, fiber: 2.8 },
+            { id: 19, name: 'Abacate', category: 'Gordura', calories: 160, protein: 2, carbs: 8.5, fat: 15, fiber: 6.7 },
+            { id: 20, name: 'Brócolis', category: 'Vegetal', calories: 34, protein: 2.8, carbs: 7, fat: 0.4, fiber: 2.6 },
+            { id: 21, name: 'Couve Flor', category: 'Vegetal', calories: 25, protein: 1.9, carbs: 5, fat: 0.3, fiber: 2 },
+            { id: 22, name: 'Açaí', category: 'Fruta', calories: 70, protein: 4, carbs: 4, fat: 5, fiber: 2.5 },
+            { id: 23, name: 'Arroz Branco', category: 'Carboidrato', calories: 130, protein: 2.7, carbs: 28, fat: 0.3, fiber: 0.4 },
+            { id: 24, name: 'Banana', category: 'Fruta', calories: 89, protein: 1.1, carbs: 23, fat: 0.3, fiber: 2.6 }
+        ];
+
+        // Carregar ingredientes
+        function carregarIngredientes() {
+            const ingredientes = JSON.parse(localStorage.getItem('ingredientes') || JSON.stringify(ingredientesPadrao));
+            return ingredientes;
+        }
+
+        // Obter classe CSS para categoria
+        function getCategoriaClass(categoria) {
+            const classes = {
+                'Proteína': 'bg-red-100 text-red-700',
+                'Carboidrato': 'bg-green-100 text-green-700',
+                'Gordura': 'bg-yellow-100 text-yellow-700',
+                'Fruta': 'bg-orange-100 text-orange-700',
+                'Vegetal': 'bg-green-100 text-green-700',
+                'Líquido': 'bg-blue-100 text-blue-700'
+            };
+            return classes[categoria] || 'bg-gray-100 text-gray-700';
+        }
+
+        // Renderizar grid de ingredientes
+        function renderizarIngredientes() {
+            const ingredientes = carregarIngredientes();
+            const grid = document.getElementById('grid-ingredientes');
+            
+            grid.innerHTML = ingredientes.map(ingrediente => `
+                <div class="border rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-medium text-sm sm:text-base">${ingrediente.name}</h4>
+                        <span class="px-1 sm:px-2 py-1 rounded-full text-xs ${getCategoriaClass(ingrediente.category)}">
+                            ${ingrediente.category}
+                        </span>
+                    </div>
+                    <div class="text-xs sm:text-sm text-gray-600 mb-3">
+                        ${ingrediente.calories} kcal • ${ingrediente.protein}g prot
+                    </div>
+                    <button
+                        onclick="adicionarARefeicao(${ingrediente.id})"
+                        class="w-full bg-blue-600 text-white px-2 sm:px-3 py-2 rounded hover:bg-blue-700 text-xs sm:text-sm"
+                    >
+                        ➕ Adicionar (100g)
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Adicionar ingrediente à refeição atual
+        function adicionarARefeicao(ingredienteId) {
+            const ingredientes = carregarIngredientes();
+            const ingrediente = ingredientes.find(i => i.id === ingredienteId);
+            
+            if (ingrediente) {
+                const refeicaoAtual = JSON.parse(localStorage.getItem('refeicaoAtual') || '[]');
+                
+                // Verificar se já existe
+                const existingIndex = refeicaoAtual.findIndex(item => item.ingrediente.id === ingredienteId);
+                
+                if (existingIndex >= 0) {
+                    refeicaoAtual[existingIndex].quantidade += 100;
+                } else {
+                    refeicaoAtual.push({
+                        ingrediente: ingrediente,
+                        quantidade: 100
+                    });
+                }
+                
+                localStorage.setItem('refeicaoAtual', JSON.stringify(refeicaoAtual));
+                atualizarRefeicaoAtual();
+            }
+        }
+
+        // Atualizar visualização da refeição atual
+        function atualizarRefeicaoAtual() {
+            const refeicaoAtual = JSON.parse(localStorage.getItem('refeicaoAtual') || '[]');
+            const container = document.getElementById('refeicao-atual');
+            const itensContainer = document.getElementById('itens-refeicao');
+            
+            if (refeicaoAtual.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+            
+            container.style.display = 'block';
+            
+            // Renderizar itens
+            itensContainer.innerHTML = refeicaoAtual.map((item, index) => `
+                <div class="flex items-center justify-between py-2 border-b last:border-b-0">
+                    <span class="text-sm sm:text-base">${item.ingrediente.name}</span>
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="number"
+                            value="${item.quantidade}"
+                            onchange="atualizarQuantidade(${index}, this.value)"
+                            class="w-16 sm:w-20 px-2 py-1 border rounded text-center text-xs sm:text-sm"
+                        />
+                        <span class="text-xs sm:text-sm text-gray-500">g</span>
+                        <button
+                            onclick="removerItem(${index})"
+                            class="text-red-500 hover:text-red-700 text-sm"
+                        >
+                            ❌
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Calcular e mostrar resumo nutricional
+            calcularResumoNutricional(refeicaoAtual);
+        }
+
+        // Atualizar quantidade de um item
+        function atualizarQuantidade(index, novaQuantidade) {
+            const refeicaoAtual = JSON.parse(localStorage.getItem('refeicaoAtual') || '[]');
+            refeicaoAtual[index].quantidade = parseFloat(novaQuantidade) || 0;
+            localStorage.setItem('refeicaoAtual', JSON.stringify(refeicaoAtual));
+            atualizarRefeicaoAtual();
+        }
+
+        // Remover item da refeição
+        function removerItem(index) {
+            const refeicaoAtual = JSON.parse(localStorage.getItem('refeicaoAtual') || '[]');
+            refeicaoAtual.splice(index, 1);
+            localStorage.setItem('refeicaoAtual', JSON.stringify(refeicaoAtual));
+            atualizarRefeicaoAtual();
+        }
+
+        // Calcular resumo nutricional
+        function calcularResumoNutricional(refeicaoAtual) {
+            const resumo = refeicaoAtual.reduce((total, item) => {
+                const multiplier = item.quantidade / 100;
+                return {
+                    calorias: total.calorias + (item.ingrediente.calories * multiplier),
+                    proteina: total.proteina + (item.ingrediente.protein * multiplier),
+                    carbs: total.carbs + (item.ingrediente.carbs * multiplier),
+                    gordura: total.gordura + (item.ingrediente.fat * multiplier),
+                    fibra: total.fibra + (item.ingrediente.fiber * multiplier)
+                };
+            }, { calorias: 0, proteina: 0, carbs: 0, gordura: 0, fibra: 0 });
+            
+            document.getElementById('resumo-nutricional').innerHTML = `
+                <div>Calorias: <strong>${Math.round(resumo.calorias)}</strong></div>
+                <div>Proteína: <strong>${Math.round(resumo.proteina)}g</strong></div>
+                <div>Carbs: <strong>${Math.round(resumo.carbs)}g</strong></div>
+                <div>Gordura: <strong>${Math.round(resumo.gordura)}g</strong></div>
+                <div>Fibra: <strong>${Math.round(resumo.fibra)}g</strong></div>
+            `;
+        }
+
+        // Salvar refeição
+        function salvarRefeicao() {
+            const refeicaoAtual = JSON.parse(localStorage.getItem('refeicaoAtual') || '[]');
+            
+            if (refeicaoAtual.length === 0) {
+                alert('Adicione pelo menos um ingrediente à refeição!');
+                return;
+            }
+            
+            // Obter data e horário
+            const dataRefeicao = document.getElementById('data-refeicao').value;
+            const horarioRefeicao = document.getElementById('horario-refeicao').value;
+            
+            if (!dataRefeicao || !horarioRefeicao) {
+                alert('Por favor, preencha a data e horário da refeição!');
+                return;
+            }
+            
+            // Calcular nutrientes
+            const nutrientes = refeicaoAtual.reduce((total, item) => {
+                const multiplier = item.quantidade / 100;
+                return {
+                    calorias: total.calorias + (item.ingrediente.calories * multiplier),
+                    proteina: total.proteina + (item.ingrediente.protein * multiplier),
+                    carbs: total.carbs + (item.ingrediente.carbs * multiplier),
+                    gordura: total.gordura + (item.ingrediente.fat * multiplier),
+                    fibra: total.fibra + (item.ingrediente.fiber * multiplier)
+                };
+            }, { calorias: 0, proteina: 0, carbs: 0, gordura: 0, fibra: 0 });
+            
+            // Salvar no histórico
+            const dadosNutricionais = JSON.parse(localStorage.getItem('dadosNutricionais') || '{}');
+            if (!dadosNutricionais[dataRefeicao]) {
+                dadosNutricionais[dataRefeicao] = [];
+            }
+            
+            dadosNutricionais[dataRefeicao].push({
+                id: Date.now(),
+                horario: horarioRefeicao,
+                alimentos: refeicaoAtual.map(item => `${item.ingrediente.name} (${item.quantidade}g)`),
+                ...nutrientes
+            });
+            
+            localStorage.setItem('dadosNutricionais', JSON.stringify(dadosNutricionais));
+            
+            // Limpar refeição atual
+            localStorage.removeItem('refeicaoAtual');
+            atualizarRefeicaoAtual();
+            
+            // Limpar campos de data e horário
+            document.getElementById('data-refeicao').value = '';
+            document.getElementById('horario-refeicao').value = '';
+            
+            alert('Refeição salva com sucesso!');
+        }
+
+        // Definir data e horário padrão
+        function definirDataHorarioPadrao() {
+            const hoje = new Date().toISOString().split('T')[0];
+            const agora = new Date().toTimeString().slice(0, 5);
+            
+            document.getElementById('data-refeicao').value = hoje;
+            document.getElementById('horario-refeicao').value = agora;
+        }
+
+        // Inicializar
+        renderizarIngredientes();
+        atualizarRefeicaoAtual();
+        definirDataHorarioPadrao();
+    </script>
+</body>
+</html>

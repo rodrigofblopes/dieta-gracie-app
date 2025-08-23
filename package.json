@@ -2,7 +2,7 @@
   "name": "gracie-diet-app",
   "version": "1.0.0",
   "type": "module",
-  "description": "Aplicativo para controle da Dieta Gracie adaptada para ganho de massa muscular",
+  "description": "Aplicativo para controle da Dieta Gracie adaptada para ganho de massa muscular - Versão Local",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,6 @@
     "start": "vite"
   },
   "dependencies": {
-    "firebase": "^12.1.0",
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -31,7 +30,9 @@
     "nutrição",
     "massa-muscular",
     "react",
-    "typescript"
+    "typescript",
+    "local",
+    "offline"
   ],
   "author": "Dieta Artista Marcial",
   "license": "MIT"

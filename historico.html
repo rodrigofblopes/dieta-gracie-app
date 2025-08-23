@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📅 Histórico - Dieta Gracie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .calendar-day {
+            transition: all 0.2s ease;
+        }
+        .calendar-day:hover {
+            transform: scale(1.05);
+        }
+        .selected-day {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            font-weight: bold;
+        }
+        .has-meals {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .selected-day.has-meals {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow mb-4 sm:mb-6">
+            <div class="flex flex-wrap border-b overflow-x-auto">
+                <a href="dashboard.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📊 Dashboard
+                </a>
+                <a href="ingredientes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    ➕ Ingredientes
+                </a>
+                <a href="refeicoes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    🎯 Refeições
+                </a>
+                <a href="receitas.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    👨‍🍳 Receitas
+                </a>
+                <a href="historico.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 border-b-2 border-blue-600 text-blue-600 bg-blue-50 text-sm sm:text-base whitespace-nowrap">
+                    📅 Histórico
+                </a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-4 sm:space-y-6">
+            <!-- Header da Página -->
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6 rounded-lg">
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">📅 Histórico Nutricional</h2>
+                <p class="text-blue-100 text-sm sm:text-base">Acompanhe seu consumo ao longo do tempo</p>
+            </div>
+
+            <!-- Calendário Interativo -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg sm:text-xl font-semibold">🗓️ Calendário de Consumo</h3>
+                    <div class="flex gap-2">
+                        <button onclick="limparSelecao()" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm">
+                            Limpar Seleção
+                        </button>
+                        <button onclick="selecionarMes()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                            Selecionar Mês
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Controles do Calendário -->
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="mesAnterior()" class="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded">
+                        ← Mês Anterior
+                    </button>
+                    <h4 class="text-lg font-medium" id="mes-atual">Janeiro 2024</h4>
+                    <button onclick="mesProximo()" class="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded">
+                        Próximo Mês →
+                    </button>
+                </div>
+
+                <!-- Calendário -->
+                <div class="mb-6">
+                    <div class="grid grid-cols-7 gap-1 text-center text-sm font-medium mb-2">
+                        <div class="p-2">Dom</div>
+                        <div class="p-2">Seg</div>
+                        <div class="p-2">Ter</div>
+                        <div class="p-2">Qua</div>
+                        <div class="p-2">Qui</div>
+                        <div class="p-2">Sex</div>
+                        <div class="p-2">Sáb</div>
+                    </div>
+                    <div id="calendario-grid" class="grid grid-cols-7 gap-1">
+                        <!-- Dias serão inseridos aqui via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Informações da Seleção -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-blue-800 mb-2">📊 Resumo da Seleção</h5>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                        <div>
+                            <span class="text-blue-600">Dias Selecionados:</span>
+                            <span id="dias-selecionados" class="font-semibold">0</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-600">Total de Refeições:</span>
+                            <span id="total-refeicoes" class="font-semibold">0</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-600">Calorias Totais:</span>
+                            <span id="calorias-totais" class="font-semibold">0</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-600">Proteína Total:</span>
+                            <span id="proteina-total" class="font-semibold">0g</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detalhes das Refeições -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">🍽️ Detalhes das Refeições</h3>
+                <div id="detalhes-refeicoes" class="space-y-4">
+                    <p class="text-gray-500 text-center py-8">Selecione um dia no calendário para ver as refeições</p>
+                </div>
+            </div>
+
+            <!-- Gráfico de Consumo -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">📈 Gráfico de Consumo</h3>
+                <div id="grafico-consumo" class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+                    <p class="text-gray-500">Selecione dias para ver o gráfico de consumo</p>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">📊 Estatísticas Gerais</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-gradient-to-r from-green-400 to-green-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="media-calorias">0</div>
+                        <div class="text-sm">Média Calorias/Dia</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="media-proteina">0g</div>
+                        <div class="text-sm">Média Proteína/Dia</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-purple-400 to-purple-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="dias-ativos">0</div>
+                        <div class="text-sm">Dias com Refeições</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-orange-400 to-orange-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="total-refeicoes-geral">0</div>
+                        <div class="text-sm">Total de Refeições</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let dataAtual = new Date();
+        let diasSelecionados = new Set();
+        let dadosNutricionais = [];
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarDados();
+            renderizarCalendario();
+            atualizarEstatisticas();
+        });
+
+        // Carregar dados do localStorage
+        function carregarDados() {
+            const dados = localStorage.getItem('dadosNutricionais');
+            if (dados) {
+                dadosNutricionais = JSON.parse(dados);
+            }
+        }
+
+        // Renderizar calendário
+        function renderizarCalendario() {
+            const ano = dataAtual.getFullYear();
+            const mes = dataAtual.getMonth();
+            
+            // Atualizar título do mês
+            const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            document.getElementById('mes-atual').textContent = `${meses[mes]} ${ano}`;
+
+            // Obter primeiro dia do mês e último dia
+            const primeiroDia = new Date(ano, mes, 1);
+            const ultimoDia = new Date(ano, mes + 1, 0);
+            const diaSemana = primeiroDia.getDay();
+
+            const grid = document.getElementById('calendario-grid');
+            grid.innerHTML = '';
+
+            // Adicionar dias vazios no início
+            for (let i = 0; i < diaSemana; i++) {
+                grid.appendChild(criarDiaVazio());
+            }
+
+            // Adicionar dias do mês
+            for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
+                const data = new Date(ano, mes, dia);
+                const dataString = data.toISOString().split('T')[0];
+                const temRefeicoes = dadosNutricionais.some(refeicao => 
+                    refeicao.data === dataString
+                );
+                
+                grid.appendChild(criarDia(dia, dataString, temRefeicoes));
+            }
+        }
+
+        // Criar dia vazio
+        function criarDiaVazio() {
+            const div = document.createElement('div');
+            div.className = 'p-2 text-gray-300';
+            div.textContent = '';
+            return div;
+        }
+
+        // Criar dia do calendário
+        function criarDia(dia, dataString, temRefeicoes) {
+            const div = document.createElement('div');
+            div.className = 'calendar-day p-2 text-center cursor-pointer rounded border';
+            
+            if (temRefeicoes) {
+                div.classList.add('has-meals');
+            }
+            
+            if (diasSelecionados.has(dataString)) {
+                div.classList.add('selected-day');
+            }
+            
+            div.textContent = dia;
+            div.onclick = () => toggleDia(dataString, div);
+            
+            return div;
+        }
+
+        // Alternar seleção de dia
+        function toggleDia(dataString, elemento) {
+            if (diasSelecionados.has(dataString)) {
+                diasSelecionados.delete(dataString);
+                elemento.classList.remove('selected-day');
+            } else {
+                diasSelecionados.add(dataString);
+                elemento.classList.add('selected-day');
+            }
+            
+            atualizarResumo();
+            mostrarDetalhesRefeicoes();
+        }
+
+        // Navegar meses
+        function mesAnterior() {
+            dataAtual.setMonth(dataAtual.getMonth() - 1);
+            renderizarCalendario();
+        }
+
+        function mesProximo() {
+            dataAtual.setMonth(dataAtual.getMonth() + 1);
+            renderizarCalendario();
+        }
+
+        // Limpar seleção
+        function limparSelecao() {
+            diasSelecionados.clear();
+            renderizarCalendario();
+            atualizarResumo();
+            mostrarDetalhesRefeicoes();
+        }
+
+        // Selecionar mês inteiro
+        function selecionarMes() {
+            const ano = dataAtual.getFullYear();
+            const mes = dataAtual.getMonth();
+            const ultimoDia = new Date(ano, mes + 1, 0);
+            
+            diasSelecionados.clear();
+            for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
+                const data = new Date(ano, mes, dia);
+                const dataString = data.toISOString().split('T')[0];
+                if (dadosNutricionais.some(refeicao => refeicao.data === dataString)) {
+                    diasSelecionados.add(dataString);
+                }
+            }
+            
+            renderizarCalendario();
+            atualizarResumo();
+            mostrarDetalhesRefeicoes();
+        }
+
+        // Atualizar resumo da seleção
+        function atualizarResumo() {
+            const diasArray = Array.from(diasSelecionados);
+            const refeicoesSelecionadas = dadosNutricionais.filter(refeicao => 
+                diasArray.includes(refeicao.data)
+            );
+
+            let totalCalorias = 0;
+            let totalProteina = 0;
+
+            refeicoesSelecionadas.forEach(refeicao => {
+                if (refeicao.nutricao) {
+                    totalCalorias += refeicao.nutricao.calorias || 0;
+                    totalProteina += refeicao.nutricao.proteina || 0;
+                }
+            });
+
+            document.getElementById('dias-selecionados').textContent = diasArray.length;
+            document.getElementById('total-refeicoes').textContent = refeicoesSelecionadas.length;
+            document.getElementById('calorias-totais').textContent = totalCalorias.toFixed(0);
+            document.getElementById('proteina-total').textContent = totalProteina.toFixed(1) + 'g';
+        }
+
+        // Mostrar detalhes das refeições
+        function mostrarDetalhesRefeicoes() {
+            const container = document.getElementById('detalhes-refeicoes');
+            const diasArray = Array.from(diasSelecionados);
+
+            if (diasArray.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Selecione um dia no calendário para ver as refeições</p>';
+                return;
+            }
+
+            const refeicoesSelecionadas = dadosNutricionais.filter(refeicao => 
+                diasArray.includes(refeicao.data)
+            );
+
+            if (refeicoesSelecionadas.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Nenhuma refeição encontrada para os dias selecionados</p>';
+                return;
+            }
+
+            // Agrupar refeições por data
+            const refeicoesPorData = {};
+            refeicoesSelecionadas.forEach(refeicao => {
+                if (!refeicoesPorData[refeicao.data]) {
+                    refeicoesPorData[refeicao.data] = [];
+                }
+                refeicoesPorData[refeicao.data].push(refeicao);
+            });
+
+            let html = '';
+            Object.keys(refeicoesPorData).sort().forEach(data => {
+                const refeicoes = refeicoesPorData[data];
+                const dataFormatada = new Date(data).toLocaleDateString('pt-BR');
+                
+                html += `
+                    <div class="border rounded-lg p-4">
+                        <h4 class="font-semibold text-lg mb-3">📅 ${dataFormatada}</h4>
+                        <div class="space-y-3">
+                `;
+
+                refeicoes.forEach(refeicao => {
+                    const horario = refeicao.horario || 'Horário não registrado';
+                    const nutricao = refeicao.nutricao || {};
+                    
+                    html += `
+                        <div class="bg-gray-50 p-3 rounded">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="font-medium">🕐 ${horario}</span>
+                                <span class="text-sm text-gray-600">${nutricao.calorias || 0} cal</span>
+                            </div>
+                            <div class="text-sm text-gray-600 mb-2">
+                                <span class="mr-3">Proteína: ${nutricao.proteina || 0}g</span>
+                                <span class="mr-3">Carbs: ${nutricao.carbs || 0}g</span>
+                                <span>Gordura: ${nutricao.gordura || 0}g</span>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                ${refeicao.ingredientes ? refeicao.ingredientes.map(ing => 
+                                    `${ing.ingrediente.name} (${ing.quantidade}g)`
+                                ).join(', ') : 'Ingredientes não disponíveis'}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Atualizar estatísticas gerais
+        function atualizarEstatisticas() {
+            if (dadosNutricionais.length === 0) {
+                document.getElementById('media-calorias').textContent = '0';
+                document.getElementById('media-proteina').textContent = '0g';
+                document.getElementById('dias-ativos').textContent = '0';
+                document.getElementById('total-refeicoes-geral').textContent = '0';
+                return;
+            }
+
+            // Calcular estatísticas
+            const diasUnicos = new Set(dadosNutricionais.map(r => r.data));
+            const totalCalorias = dadosNutricionais.reduce((sum, r) => sum + (r.nutricao?.calorias || 0), 0);
+            const totalProteina = dadosNutricionais.reduce((sum, r) => sum + (r.nutricao?.proteina || 0), 0);
+
+            const mediaCalorias = diasUnicos.size > 0 ? totalCalorias / diasUnicos.size : 0;
+            const mediaProteina = diasUnicos.size > 0 ? totalProteina / diasUnicos.size : 0;
+
+            document.getElementById('media-calorias').textContent = mediaCalorias.toFixed(0);
+            document.getElementById('media-proteina').textContent = mediaProteina.toFixed(1) + 'g';
+            document.getElementById('dias-ativos').textContent = diasUnicos.size;
+            document.getElementById('total-refeicoes-geral').textContent = dadosNutricionais.length;
+        }
+    </script>
+</body>
+</html>

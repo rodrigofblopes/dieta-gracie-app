@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👨‍🍳 Receitas - Dieta Gracie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .recipe-card {
+            transition: transform 0.3s ease;
+        }
+        .recipe-card:hover {
+            transform: translateY(-2px);
+        }
+        .swipe-container {
+            scroll-snap-type: x mandatory;
+        }
+        .swipe-card {
+            scroll-snap-align: start;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow mb-4 sm:mb-6">
+            <div class="flex flex-wrap border-b overflow-x-auto">
+                <a href="dashboard.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📊 Dashboard
+                </a>
+                <a href="ingredientes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    ➕ Ingredientes
+                </a>
+                <a href="refeicoes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    🎯 Refeições
+                </a>
+                <a href="receitas.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 border-b-2 border-blue-600 text-blue-600 bg-blue-50 text-sm sm:text-base whitespace-nowrap">
+                    👨‍🍳 Receitas
+                </a>
+                <a href="historico.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📅 Histórico
+                </a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-4 sm:space-y-6">
+            <!-- Header da Página -->
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6 rounded-lg">
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">👨‍🍳 Receitas Dieta Gracie</h2>
+                <p class="text-blue-100 text-sm sm:text-base">Combinações perfeitas para ganho de massa muscular</p>
+            </div>
+
+                         <!-- Seletor de Horário -->
+             <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                 <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">🕐 Selecione o Horário da Refeição</h3>
+                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                     <button onclick="selecionarHorario('cafe')" class="horario-btn bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         ☕ Café da Manhã<br><span class="text-xs opacity-75">06:00 - 08:00</span>
+                     </button>
+                     <button onclick="selecionarHorario('lanche-manha')" class="horario-btn bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         🍎 Lanche da Manhã<br><span class="text-xs opacity-75">09:00 - 10:30</span>
+                     </button>
+                     <button onclick="selecionarHorario('almoco')" class="horario-btn bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         🍽️ Almoço<br><span class="text-xs opacity-75">12:00 - 14:00</span>
+                     </button>
+                     <button onclick="selecionarHorario('lanche-tarde')" class="horario-btn bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         🥗 Lanche da Tarde<br><span class="text-xs opacity-75">15:00 - 17:00</span>
+                     </button>
+                     <button onclick="selecionarHorario('jantar')" class="horario-btn bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         🌙 Jantar<br><span class="text-xs opacity-75">19:00 - 21:00</span>
+                     </button>
+                     <button onclick="selecionarHorario('ceia')" class="horario-btn bg-indigo-100 hover:bg-indigo-200 text-indigo-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         🌟 Ceia<br><span class="text-xs opacity-75">22:00 - 23:00</span>
+                     </button>
+                     <button onclick="selecionarHorario('pre-treino')" class="horario-btn bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         💪 Pré-Treino<br><span class="text-xs opacity-75">2h antes do treino</span>
+                     </button>
+                     <button onclick="selecionarHorario('pos-treino')" class="horario-btn bg-pink-100 hover:bg-pink-200 text-pink-800 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                         🏋️ Pós-Treino<br><span class="text-xs opacity-75">30min após o treino</span>
+                     </button>
+                 </div>
+             </div>
+
+            <!-- Cards de Receitas -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+                    🍽️ Receitas para <span id="horario-selecionado" class="text-blue-600">Selecione um horário</span>
+                </h3>
+                
+                <!-- Container de Cards Deslizantes -->
+                <div id="cards-container" class="overflow-x-auto swipe-container">
+                    <div id="cards-wrapper" class="flex gap-4 pb-4" style="width: max-content;">
+                        <!-- Cards serão inseridos aqui via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Indicadores de Navegação -->
+                <div class="flex justify-center mt-4 space-x-2">
+                    <button onclick="navegarCards('prev')" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-full">
+                        ←
+                    </button>
+                    <span id="card-indicator" class="text-sm text-gray-600 px-3 py-2">1 de 5</span>
+                    <button onclick="navegarCards('next')" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-full">
+                        →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Informações da Dieta Gracie -->
+            <div class="bg-amber-50 border border-amber-200 p-4 sm:p-6 rounded-lg">
+                <h4 class="font-semibold text-amber-800 mb-3 text-sm sm:text-base">🥋 Princípios da Dieta Gracie</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-amber-700">
+                    <div>
+                        <h5 class="font-medium mb-2">✅ Combinações Permitidas:</h5>
+                        <ul class="space-y-1">
+                            <li>• Proteínas + Carboidratos complexos</li>
+                            <li>• Gorduras + Proteínas</li>
+                            <li>• Frutas + Gorduras</li>
+                            <li>• Vegetais + Qualquer grupo</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-medium mb-2">❌ Combinações Evitadas:</h5>
+                        <ul class="space-y-1">
+                            <li>• Frutas ácidas + Proteínas</li>
+                            <li>• Carboidratos simples + Proteínas</li>
+                            <li>• Múltiplas proteínas na mesma refeição</li>
+                            <li>• Frutas + Carboidratos simples</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let horarioAtual = '';
+        let cardAtual = 0;
+        let receitasAtuais = [];
+
+        // Receitas baseadas no Insumos.csv
+        const receitas = {
+            'cafe': [
+                {
+                    id: 1,
+                    nome: 'Café da Manhã Energético',
+                    descricao: 'Combinação perfeita para começar o dia com energia',
+                    ingredientes: [
+                        { nome: 'Aveia em Flocos', quantidade: 50, categoria: 'Carboidrato' },
+                        { nome: 'Banana', quantidade: 100, categoria: 'Fruta' },
+                        { nome: 'Castanha do Pará', quantidade: 20, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Misture a aveia com água quente',
+                        '2. Adicione a banana picada',
+                        '3. Polvilhe as castanhas trituradas',
+                        '4. Sirva quente'
+                    ],
+                    calorias: 320,
+                    proteina: 8,
+                    carbs: 45,
+                    gordura: 12,
+                    fibra: 6,
+                    cor: 'from-orange-400 to-yellow-400'
+                },
+                {
+                    id: 2,
+                    nome: 'Omelete com Abacate',
+                    descricao: 'Proteína de qualidade com gordura saudável',
+                    ingredientes: [
+                        { nome: 'Ovos', quantidade: 150, categoria: 'Proteína' },
+                        { nome: 'Abacate', quantidade: 80, categoria: 'Gordura' },
+                        { nome: 'Brócolis', quantidade: 50, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Bata os ovos em uma tigela',
+                        '2. Adicione o brócolis picado',
+                        '3. Frite em uma frigideira',
+                        '4. Sirva com abacate fatiado'
+                    ],
+                    calorias: 380,
+                    proteina: 22,
+                    carbs: 8,
+                    gordura: 28,
+                    fibra: 8,
+                    cor: 'from-green-400 to-blue-400'
+                },
+                {
+                    id: 3,
+                    nome: 'Panqueca de Aveia e Banana',
+                    descricao: 'Panqueca saudável e nutritiva',
+                    ingredientes: [
+                        { nome: 'Farinha de Aveia', quantidade: 60, categoria: 'Carboidrato' },
+                        { nome: 'Banana', quantidade: 120, categoria: 'Fruta' },
+                        { nome: 'Ovos', quantidade: 100, categoria: 'Proteína' },
+                        { nome: 'Amendoim Torrado', quantidade: 20, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Bata a banana no liquidificador',
+                        '2. Adicione a farinha de aveia e ovos',
+                        '3. Frite em frigideira antiaderente',
+                        '4. Polvilhe amendoim triturado'
+                    ],
+                    calorias: 410,
+                    proteina: 18,
+                    carbs: 52,
+                    gordura: 16,
+                    fibra: 8,
+                    cor: 'from-yellow-400 to-orange-500'
+                },
+                {
+                    id: 4,
+                    nome: 'Bowl de Quinoa e Frutas',
+                    descricao: 'Bowl nutritivo e colorido',
+                    ingredientes: [
+                        { nome: 'Quinoa Urbano', quantidade: 80, categoria: 'Carboidrato' },
+                        { nome: 'Banana', quantidade: 100, categoria: 'Fruta' },
+                        { nome: 'Nozes', quantidade: 25, categoria: 'Gordura' },
+                        { nome: 'Aveia em Flocos', quantidade: 30, categoria: 'Carboidrato' }
+                    ],
+                    preparo: [
+                        '1. Cozinhe a quinoa até ficar macia',
+                        '2. Misture com aveia',
+                        '3. Adicione banana picada',
+                        '4. Polvilhe nozes trituradas'
+                    ],
+                    calorias: 380,
+                    proteina: 12,
+                    carbs: 48,
+                    gordura: 18,
+                    fibra: 9,
+                    cor: 'from-purple-400 to-pink-400'
+                }
+            ],
+            'lanche-manha': [
+                {
+                    id: 5,
+                    nome: 'Mix de Frutas e Oleaginosas',
+                    descricao: 'Lanche leve e nutritivo',
+                    ingredientes: [
+                        { nome: 'Banana', quantidade: 80, categoria: 'Fruta' },
+                        { nome: 'Nozes', quantidade: 30, categoria: 'Gordura' },
+                        { nome: 'Amendoim Cru', quantidade: 25, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Corte a banana em rodelas',
+                        '2. Misture com as nozes',
+                        '3. Adicione o amendoim',
+                        '4. Consuma imediatamente'
+                    ],
+                    calorias: 280,
+                    proteina: 8,
+                    carbs: 25,
+                    gordura: 18,
+                    fibra: 5,
+                    cor: 'from-yellow-400 to-orange-400'
+                },
+                {
+                    id: 6,
+                    nome: 'Smoothie Verde Energético',
+                    descricao: 'Smoothie rico em nutrientes',
+                    ingredientes: [
+                        { nome: 'Banana', quantidade: 100, categoria: 'Fruta' },
+                        { nome: 'Brócolis', quantidade: 40, categoria: 'Vegetal' },
+                        { nome: 'Aveia em Flocos', quantidade: 30, categoria: 'Carboidrato' },
+                        { nome: 'Castanha do Pará', quantidade: 15, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Bata a banana no liquidificador',
+                        '2. Adicione brócolis e aveia',
+                        '3. Processe com água',
+                        '4. Polvilhe castanhas trituradas'
+                    ],
+                    calorias: 250,
+                    proteina: 9,
+                    carbs: 35,
+                    gordura: 12,
+                    fibra: 7,
+                    cor: 'from-green-400 to-emerald-400'
+                },
+                {
+                    id: 7,
+                    nome: 'Granola Caseira',
+                    descricao: 'Granola nutritiva e crocante',
+                    ingredientes: [
+                        { nome: 'Aveia em Flocos', quantidade: 50, categoria: 'Carboidrato' },
+                        { nome: 'Nozes', quantidade: 20, categoria: 'Gordura' },
+                        { nome: 'Amendoim Torrado', quantidade: 20, categoria: 'Gordura' },
+                        { nome: 'Castanha do Pará', quantidade: 15, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Misture todos os ingredientes',
+                        '2. Asse em forno baixo por 15 min',
+                        '3. Deixe esfriar',
+                        '4. Consuma com frutas'
+                    ],
+                    calorias: 320,
+                    proteina: 10,
+                    carbs: 28,
+                    gordura: 22,
+                    fibra: 6,
+                    cor: 'from-amber-400 to-orange-400'
+                }
+            ],
+            'almoco': [
+                {
+                    id: 8,
+                    nome: 'Prato Completo de Massa',
+                    descricao: 'Refeição principal rica em proteína e carboidratos',
+                    ingredientes: [
+                        { nome: 'Peito de Frango', quantidade: 150, categoria: 'Proteína' },
+                        { nome: 'Arroz Branco', quantidade: 100, categoria: 'Carboidrato' },
+                        { nome: 'Cenoura', quantidade: 80, categoria: 'Vegetal' },
+                        { nome: 'Brócolis', quantidade: 60, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Grelhe o frango com temperos',
+                        '2. Cozinhe o arroz',
+                        '3. Refogue os vegetais',
+                        '4. Monte o prato harmoniosamente'
+                    ],
+                    calorias: 520,
+                    proteina: 48,
+                    carbs: 65,
+                    gordura: 8,
+                    fibra: 6,
+                    cor: 'from-red-400 to-pink-400'
+                },
+                {
+                    id: 9,
+                    nome: 'Almoço com Fígado',
+                    descricao: 'Rico em ferro e proteínas',
+                    ingredientes: [
+                        { nome: 'Fígado Bovino', quantidade: 120, categoria: 'Proteína' },
+                        { nome: 'Batata Doce', quantidade: 150, categoria: 'Carboidrato' },
+                        { nome: 'Cenoura', quantidade: 80, categoria: 'Vegetal' },
+                        { nome: 'Couve Flor', quantidade: 60, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Grelhe o fígado rapidamente',
+                        '2. Asse a batata doce',
+                        '3. Cozinhe os vegetais no vapor',
+                        '4. Sirva com temperos naturais'
+                    ],
+                    calorias: 480,
+                    proteina: 42,
+                    carbs: 58,
+                    gordura: 12,
+                    fibra: 8,
+                    cor: 'from-red-500 to-orange-500'
+                },
+                {
+                    id: 10,
+                    nome: 'Almoço com Atum',
+                    descricao: 'Proteína magra e nutritiva',
+                    ingredientes: [
+                        { nome: 'Atum', quantidade: 150, categoria: 'Proteína' },
+                        { nome: 'Quinoa Grão Mix', quantidade: 100, categoria: 'Carboidrato' },
+                        { nome: 'Brócolis', quantidade: 80, categoria: 'Vegetal' },
+                        { nome: 'Abacate', quantidade: 60, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Grelhe o atum',
+                        '2. Cozinhe a quinoa',
+                        '3. Cozinhe o brócolis no vapor',
+                        '4. Sirva com abacate fatiado'
+                    ],
+                    calorias: 450,
+                    proteina: 44,
+                    carbs: 52,
+                    gordura: 18,
+                    fibra: 10,
+                    cor: 'from-blue-400 to-cyan-400'
+                },
+                {
+                    id: 11,
+                    nome: 'Almoço Vegetariano',
+                    descricao: 'Opção vegetariana rica em proteínas',
+                    ingredientes: [
+                        { nome: 'Ovos', quantidade: 200, categoria: 'Proteína' },
+                        { nome: 'Quinoa Urbano', quantidade: 100, categoria: 'Carboidrato' },
+                        { nome: 'Cenoura', quantidade: 80, categoria: 'Vegetal' },
+                        { nome: 'Brócolis', quantidade: 60, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Cozinhe os ovos (pode ser mexido)',
+                        '2. Cozinhe a quinoa',
+                        '3. Refogue os vegetais',
+                        '4. Monte o prato'
+                    ],
+                    calorias: 520,
+                    proteina: 38,
+                    carbs: 58,
+                    gordura: 22,
+                    fibra: 8,
+                    cor: 'from-green-400 to-teal-400'
+                }
+            ],
+            'lanche-tarde': [
+                {
+                    id: 12,
+                    nome: 'Lanche da Tarde Especial',
+                    descricao: 'Quinoa + Abacate + Açaí - Combinação poderosa',
+                    ingredientes: [
+                        { nome: 'Quinoa Grão Mix', quantidade: 100, categoria: 'Carboidrato' },
+                        { nome: 'Abacate', quantidade: 80, categoria: 'Gordura' },
+                        { nome: 'Açaí', quantidade: 100, categoria: 'Fruta' }
+                    ],
+                    preparo: [
+                        '1. Cozinhe a quinoa até ficar macia',
+                        '2. Bata o abacate com açaí no liquidificador',
+                        '3. Misture a quinoa com a mistura batida',
+                        '4. Sirva gelado'
+                    ],
+                    calorias: 350,
+                    proteina: 10,
+                    carbs: 34,
+                    gordura: 22,
+                    fibra: 16,
+                    cor: 'from-green-400 to-blue-500'
+                },
+                {
+                    id: 13,
+                    nome: 'Vitamina Energética',
+                    descricao: 'Smoothie rico em nutrientes',
+                    ingredientes: [
+                        { nome: 'Banana', quantidade: 120, categoria: 'Fruta' },
+                        { nome: 'Aveia em Flocos', quantidade: 40, categoria: 'Carboidrato' },
+                        { nome: 'Castanha do Pará', quantidade: 25, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Bata a banana no liquidificador',
+                        '2. Adicione a aveia e água',
+                        '3. Processe até ficar homogêneo',
+                        '4. Polvilhe as castanhas trituradas'
+                    ],
+                    calorias: 310,
+                    proteina: 9,
+                    carbs: 42,
+                    gordura: 14,
+                    fibra: 7,
+                    cor: 'from-purple-400 to-pink-400'
+                },
+                {
+                    id: 14,
+                    nome: 'Bowl de Açaí Completo',
+                    descricao: 'Bowl nutritivo e saboroso',
+                    ingredientes: [
+                        { nome: 'Açaí', quantidade: 150, categoria: 'Fruta' },
+                        { nome: 'Banana', quantidade: 100, categoria: 'Fruta' },
+                        { nome: 'Granola Caseira', quantidade: 40, categoria: 'Carboidrato' },
+                        { nome: 'Castanha do Pará', quantidade: 20, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Bata o açaí com banana',
+                        '2. Coloque em uma tigela',
+                        '3. Adicione a granola',
+                        '4. Polvilhe castanhas trituradas'
+                    ],
+                    calorias: 380,
+                    proteina: 8,
+                    carbs: 48,
+                    gordura: 20,
+                    fibra: 8,
+                    cor: 'from-purple-500 to-pink-500'
+                },
+                {
+                    id: 15,
+                    nome: 'Mix de Oleaginosas',
+                    descricao: 'Combinação de gorduras saudáveis',
+                    ingredientes: [
+                        { nome: 'Nozes', quantidade: 30, categoria: 'Gordura' },
+                        { nome: 'Amendoim Torrado', quantidade: 30, categoria: 'Gordura' },
+                        { nome: 'Castanha do Pará', quantidade: 25, categoria: 'Gordura' },
+                        { nome: 'Amendoim Cru', quantidade: 25, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Misture todas as oleaginosas',
+                        '2. Consuma em pequenas porções',
+                        '3. Ideal para energia sustentada',
+                        '4. Mantenha em local fresco'
+                    ],
+                    calorias: 420,
+                    proteina: 16,
+                    carbs: 12,
+                    gordura: 38,
+                    fibra: 8,
+                    cor: 'from-amber-500 to-orange-500'
+                }
+            ],
+            'jantar': [
+                {
+                    id: 16,
+                    nome: 'Jantar Leve e Nutritivo',
+                    descricao: 'Refeição noturna balanceada',
+                    ingredientes: [
+                        { nome: 'Sardinha', quantidade: 150, categoria: 'Proteína' },
+                        { nome: 'Batata Doce', quantidade: 120, categoria: 'Carboidrato' },
+                        { nome: 'Couve Flor', quantidade: 80, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Grelhe a sardinha',
+                        '2. Asse a batata doce',
+                        '3. Cozinhe a couve flor no vapor',
+                        '4. Sirva com azeite e limão'
+                    ],
+                    calorias: 420,
+                    proteina: 36,
+                    carbs: 45,
+                    gordura: 18,
+                    fibra: 8,
+                    cor: 'from-indigo-400 to-purple-400'
+                },
+                {
+                    id: 17,
+                    nome: 'Jantar com Contra-Filé',
+                    descricao: 'Proteína nobre para o jantar',
+                    ingredientes: [
+                        { nome: 'Contra-Filé', quantidade: 120, categoria: 'Proteína' },
+                        { nome: 'Batata Doce Roxa', quantidade: 100, categoria: 'Carboidrato' },
+                        { nome: 'Brócolis', quantidade: 80, categoria: 'Vegetal' },
+                        { nome: 'Cenoura', quantidade: 60, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Grelhe o contra-filé ao ponto',
+                        '2. Asse a batata doce roxa',
+                        '3. Cozinhe os vegetais no vapor',
+                        '4. Sirva com temperos naturais'
+                    ],
+                    calorias: 480,
+                    proteina: 44,
+                    carbs: 42,
+                    gordura: 24,
+                    fibra: 8,
+                    cor: 'from-red-600 to-pink-600'
+                },
+                {
+                    id: 18,
+                    nome: 'Jantar Vegetariano',
+                    descricao: 'Opção leve e nutritiva',
+                    ingredientes: [
+                        { nome: 'Ovos', quantidade: 150, categoria: 'Proteína' },
+                        { nome: 'Quinoa Urbano', quantidade: 80, categoria: 'Carboidrato' },
+                        { nome: 'Abacate', quantidade: 80, categoria: 'Gordura' },
+                        { nome: 'Couve Flor', quantidade: 60, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Cozinhe os ovos (pode ser cozido)',
+                        '2. Cozinhe a quinoa',
+                        '3. Corte o abacate em fatias',
+                        '4. Cozinhe a couve flor no vapor'
+                    ],
+                    calorias: 420,
+                    proteina: 28,
+                    carbs: 38,
+                    gordura: 26,
+                    fibra: 10,
+                    cor: 'from-green-500 to-emerald-500'
+                }
+            ],
+            'ceia': [
+                {
+                    id: 19,
+                    nome: 'Ceia Proteica',
+                    descricao: 'Proteína caseína para recuperação noturna',
+                    ingredientes: [
+                        { nome: 'Ovos', quantidade: 100, categoria: 'Proteína' },
+                        { nome: 'Amendoim Cru', quantidade: 30, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Cozinhe os ovos (pode ser cozido)',
+                        '2. Consuma com amendoim',
+                        '3. Ideal 1-2 horas antes de dormir'
+                    ],
+                    calorias: 280,
+                    proteina: 18,
+                    carbs: 5,
+                    gordura: 22,
+                    fibra: 3,
+                    cor: 'from-gray-400 to-blue-400'
+                },
+                {
+                    id: 20,
+                    nome: 'Ceia com Sardinha',
+                    descricao: 'Ômega-3 para recuperação',
+                    ingredientes: [
+                        { nome: 'Sardinha', quantidade: 100, categoria: 'Proteína' },
+                        { nome: 'Nozes', quantidade: 25, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Consuma a sardinha',
+                        '2. Adicione as nozes',
+                        '3. Rico em ômega-3',
+                        '4. Ideal para recuperação muscular'
+                    ],
+                    calorias: 320,
+                    proteina: 24,
+                    carbs: 2,
+                    gordura: 26,
+                    fibra: 4,
+                    cor: 'from-blue-500 to-indigo-500'
+                },
+                {
+                    id: 21,
+                    nome: 'Ceia Leve',
+                    descricao: 'Ceia leve e nutritiva',
+                    ingredientes: [
+                        { nome: 'Banana', quantidade: 120, categoria: 'Fruta' },
+                        { nome: 'Castanha do Pará', quantidade: 20, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Corte a banana em rodelas',
+                        '2. Adicione as castanhas trituradas',
+                        '3. Combinação leve e nutritiva',
+                        '4. Ideal para antes de dormir'
+                    ],
+                    calorias: 200,
+                    proteina: 4,
+                    carbs: 28,
+                    gordura: 10,
+                    fibra: 4,
+                    cor: 'from-yellow-400 to-orange-400'
+                }
+            ],
+            'pre-treino': [
+                {
+                    id: 22,
+                    nome: 'Pré-Treino Energético',
+                    descricao: 'Combinação para energia sustentada',
+                    ingredientes: [
+                        { nome: 'Banana', quantidade: 120, categoria: 'Fruta' },
+                        { nome: 'Castanha do Pará', quantidade: 30, categoria: 'Gordura' },
+                        { nome: 'Aveia em Flocos', quantidade: 50, categoria: 'Carboidrato' }
+                    ],
+                    preparo: [
+                        '1. Corte a banana em rodelas',
+                        '2. Misture com as castanhas picadas',
+                        '3. Adicione a aveia',
+                        '4. Consuma 2 horas antes do treino'
+                    ],
+                    calorias: 420,
+                    proteina: 12,
+                    carbs: 45,
+                    gordura: 22,
+                    fibra: 8,
+                    cor: 'from-blue-400 to-cyan-400'
+                },
+                {
+                    id: 23,
+                    nome: 'Pré-Treino com Batata Doce',
+                    descricao: 'Carboidrato complexo para energia',
+                    ingredientes: [
+                        { nome: 'Batata Doce', quantidade: 150, categoria: 'Carboidrato' },
+                        { nome: 'Ovos', quantidade: 100, categoria: 'Proteína' },
+                        { nome: 'Abacate', quantidade: 60, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Asse a batata doce',
+                        '2. Cozinhe os ovos',
+                        '3. Adicione abacate fatiado',
+                        '4. Consuma 2-3 horas antes do treino'
+                    ],
+                    calorias: 380,
+                    proteina: 20,
+                    carbs: 42,
+                    gordura: 18,
+                    fibra: 8,
+                    cor: 'from-orange-400 to-red-400'
+                },
+                {
+                    id: 24,
+                    nome: 'Pré-Treino com Quinoa',
+                    descricao: 'Proteína completa para performance',
+                    ingredientes: [
+                        { nome: 'Quinoa Grão Mix', quantidade: 80, categoria: 'Carboidrato' },
+                        { nome: 'Banana', quantidade: 100, categoria: 'Fruta' },
+                        { nome: 'Amendoim Torrado', quantidade: 25, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Cozinhe a quinoa',
+                        '2. Adicione banana picada',
+                        '3. Polvilhe amendoim triturado',
+                        '4. Consuma 2 horas antes do treino'
+                    ],
+                    calorias: 350,
+                    proteina: 12,
+                    carbs: 48,
+                    gordura: 16,
+                    fibra: 7,
+                    cor: 'from-green-400 to-teal-400'
+                }
+            ],
+            'pos-treino': [
+                {
+                    id: 25,
+                    nome: 'Pós-Treino Massa Muscular',
+                    descricao: 'Recuperação e ganho de massa',
+                    ingredientes: [
+                        { nome: 'Peito de Frango', quantidade: 150, categoria: 'Proteína' },
+                        { nome: 'Arroz Branco', quantidade: 100, categoria: 'Carboidrato' },
+                        { nome: 'Batata Doce', quantidade: 100, categoria: 'Carboidrato' }
+                    ],
+                    preparo: [
+                        '1. Grelhe o frango com temperos naturais',
+                        '2. Cozinhe o arroz branco',
+                        '3. Asse a batata doce',
+                        '4. Consuma até 1 hora após o treino'
+                    ],
+                    calorias: 485,
+                    proteina: 52,
+                    carbs: 58,
+                    gordura: 6,
+                    fibra: 5,
+                    cor: 'from-pink-400 to-red-400'
+                },
+                {
+                    id: 26,
+                    nome: 'Pós-Treino com Atum',
+                    descricao: 'Proteína magra para recuperação',
+                    ingredientes: [
+                        { nome: 'Atum', quantidade: 150, categoria: 'Proteína' },
+                        { nome: 'Batata Doce Roxa', quantidade: 120, categoria: 'Carboidrato' },
+                        { nome: 'Cenoura', quantidade: 80, categoria: 'Vegetal' }
+                    ],
+                    preparo: [
+                        '1. Grelhe o atum',
+                        '2. Asse a batata doce roxa',
+                        '3. Cozinhe a cenoura no vapor',
+                        '4. Consuma até 1 hora após o treino'
+                    ],
+                    calorias: 420,
+                    proteina: 48,
+                    carbs: 52,
+                    gordura: 8,
+                    fibra: 8,
+                    cor: 'from-blue-500 to-indigo-500'
+                },
+                {
+                    id: 27,
+                    nome: 'Pós-Treino Vegetariano',
+                    descricao: 'Opção vegetariana rica em proteínas',
+                    ingredientes: [
+                        { nome: 'Ovos', quantidade: 200, categoria: 'Proteína' },
+                        { nome: 'Quinoa Urbano', quantidade: 100, categoria: 'Carboidrato' },
+                        { nome: 'Abacate', quantidade: 80, categoria: 'Gordura' }
+                    ],
+                    preparo: [
+                        '1. Cozinhe os ovos (pode ser mexido)',
+                        '2. Cozinhe a quinoa',
+                        '3. Adicione abacate fatiado',
+                        '4. Consuma até 1 hora após o treino'
+                    ],
+                    calorias: 480,
+                    proteina: 36,
+                    carbs: 48,
+                    gordura: 28,
+                    fibra: 8,
+                    cor: 'from-green-500 to-emerald-500'
+                }
+            ]
+        };
+
+        // Selecionar horário
+        function selecionarHorario(horario) {
+            horarioAtual = horario;
+            cardAtual = 0;
+            
+            // Atualizar botões
+            document.querySelectorAll('.horario-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-blue-500');
+            });
+            event.target.classList.add('ring-2', 'ring-blue-500');
+            
+            // Atualizar texto
+            const horarios = {
+                'cafe': 'Café da Manhã',
+                'lanche-manha': 'Lanche da Manhã',
+                'almoco': 'Almoço',
+                'lanche-tarde': 'Lanche da Tarde',
+                'jantar': 'Jantar',
+                'ceia': 'Ceia',
+                'pre-treino': 'Pré-Treino',
+                'pos-treino': 'Pós-Treino'
+            };
+            
+            document.getElementById('horario-selecionado').textContent = horarios[horario];
+            
+            // Carregar receitas do horário
+            receitasAtuais = receitas[horario] || [];
+            renderizarCards();
+        }
+
+        // Renderizar cards
+        function renderizarCards() {
+            const wrapper = document.getElementById('cards-wrapper');
+            
+            if (receitasAtuais.length === 0) {
+                wrapper.innerHTML = `
+                    <div class="w-80 h-96 bg-gray-100 rounded-lg flex items-center justify-center swipe-card">
+                        <p class="text-gray-500 text-center">Nenhuma receita disponível para este horário</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            wrapper.innerHTML = receitasAtuais.map((receita, index) => `
+                <div class="w-80 h-96 bg-white rounded-lg shadow-lg swipe-card recipe-card" style="display: ${index === 0 ? 'block' : 'none'}">
+                    <div class="h-full flex flex-col">
+                        <!-- Header do Card -->
+                        <div class="bg-gradient-to-r ${receita.cor} text-white p-4 rounded-t-lg">
+                            <h4 class="font-bold text-lg mb-1">${receita.nome}</h4>
+                            <p class="text-sm opacity-90">${receita.descricao}</p>
+                        </div>
+                        
+                        <!-- Conteúdo do Card -->
+                        <div class="flex-1 p-4 overflow-y-auto">
+                            <!-- Ingredientes -->
+                            <div class="mb-4">
+                                <h5 class="font-semibold text-gray-800 mb-2 text-sm">📋 Ingredientes:</h5>
+                                <ul class="space-y-1 text-xs">
+                                    ${receita.ingredientes.map(ing => `
+                                        <li class="flex justify-between">
+                                            <span>• ${ing.nome}</span>
+                                            <span class="text-gray-600">${ing.quantidade}g</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            
+                            <!-- Preparo -->
+                            <div class="mb-4">
+                                <h5 class="font-semibold text-gray-800 mb-2 text-sm">👨‍🍳 Preparo:</h5>
+                                <ol class="space-y-1 text-xs text-gray-600">
+                                    ${receita.preparo.map(passo => `<li>${passo}</li>`).join('')}
+                                </ol>
+                            </div>
+                            
+                            <!-- Informações Nutricionais -->
+                            <div class="bg-gray-50 p-3 rounded">
+                                <h6 class="font-semibold text-gray-800 mb-2 text-sm">📊 Nutrição:</h6>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <div>Calorias: <strong>${receita.calorias}</strong></div>
+                                    <div>Proteína: <strong>${receita.proteina}g</strong></div>
+                                    <div>Carbs: <strong>${receita.carbs}g</strong></div>
+                                    <div>Gordura: <strong>${receita.gordura}g</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botão de Ação -->
+                        <div class="p-4 border-t">
+                            <button 
+                                onclick="adicionarReceita(${receita.id})"
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                            >
+                                ➕ Adicionar à Refeição
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            atualizarIndicador();
+        }
+
+        // Navegar entre cards
+        function navegarCards(direcao) {
+            if (receitasAtuais.length === 0) return;
+            
+            const cards = document.querySelectorAll('.swipe-card');
+            
+            if (direcao === 'next' && cardAtual < receitasAtuais.length - 1) {
+                cards[cardAtual].style.display = 'none';
+                cardAtual++;
+                cards[cardAtual].style.display = 'block';
+            } else if (direcao === 'prev' && cardAtual > 0) {
+                cards[cardAtual].style.display = 'none';
+                cardAtual--;
+                cards[cardAtual].style.display = 'block';
+            }
+            
+            atualizarIndicador();
+        }
+
+        // Atualizar indicador
+        function atualizarIndicador() {
+            const total = receitasAtuais.length;
+            const atual = cardAtual + 1;
+            document.getElementById('card-indicator').textContent = `${atual} de ${total}`;
+        }
+
+        // Adicionar receita à refeição
+        function adicionarReceita(receitaId) {
+            const receita = receitasAtuais.find(r => r.id === receitaId);
+            if (!receita) return;
+            
+            // Converter receita para formato de refeição
+            const refeicaoAtual = JSON.parse(localStorage.getItem('refeicaoAtual') || '[]');
+            
+            receita.ingredientes.forEach(ingrediente => {
+                // Buscar ingrediente completo no banco de dados
+                const ingredientesCompletos = JSON.parse(localStorage.getItem('ingredientes') || '[]');
+                const ingredienteCompleto = ingredientesCompletos.find(i => i.name === ingrediente.nome);
+                
+                if (ingredienteCompleto) {
+                    refeicaoAtual.push({
+                        ingrediente: ingredienteCompleto,
+                        quantidade: ingrediente.quantidade
+                    });
+                }
+            });
+            
+            localStorage.setItem('refeicaoAtual', JSON.stringify(refeicaoAtual));
+            
+            alert(`Receita "${receita.nome}" adicionada à refeição atual!`);
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Selecionar café da manhã por padrão
+            selecionarHorario('cafe');
+        });
+    </script>
+</body>
+</html>

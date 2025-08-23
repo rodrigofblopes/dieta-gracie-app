@@ -1,40 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit3, Save, X, BookOpen, Target, Calendar, BarChart3, ChefHat } from 'lucide-react';
 
-interface Ingredient {
-  id: number;
-  name: string;
-  category: string;
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  fiber: number;
-}
-
-interface MealItem {
-  ingredient: Ingredient;
-  quantity: number;
-}
-
-interface Meal {
-  id: number;
-  date: string;
-  time: string;
-  items: MealItem[];
-}
-
-interface Recipe {
-  id: number;
-  name: string;
-  description: string;
-  ingredients: { ingredientId: number; quantity: number }[];
-  instructions: string;
-}
-
 const GracieDietApp = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [ingredients, setIngredients] = useState<Ingredient[]>([
+  const [ingredients, setIngredients] = useState([
     // Alimentos base da Dieta Gracie adaptados para massa muscular
     { id: 1, name: 'Peito de Frango', category: 'Proteína', calories: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0 },
     { id: 2, name: 'Arroz Integral', category: 'Carboidrato', calories: 123, protein: 2.6, carbs: 23, fat: 0.9, fiber: 1.8 },
@@ -43,14 +12,12 @@ const GracieDietApp = () => {
     { id: 5, name: 'Abacate', category: 'Gordura', calories: 160, protein: 2, carbs: 8.5, fat: 15, fiber: 6.7 },
     { id: 6, name: 'Banana', category: 'Fruta', calories: 89, protein: 1.1, carbs: 23, fat: 0.3, fiber: 2.6 },
     { id: 7, name: 'Castanha do Brasil', category: 'Gordura', calories: 656, protein: 14, carbs: 12, fat: 66, fiber: 7.5 },
-    { id: 8, name: 'Feijão Preto', category: 'Proteína', calories: 132, protein: 8.9, carbs: 23, fat: 0.5, fiber: 8.7 },
-    { id: 9, name: 'Quinoa', category: 'Carboidrato', calories: 120, protein: 4.4, carbs: 21.3, fat: 1.9, fiber: 2.8 },
-    { id: 10, name: 'Açaí', category: 'Fruta', calories: 70, protein: 4, carbs: 4, fat: 5, fiber: 2.5 }
+    { id: 8, name: 'Feijão Preto', category: 'Proteína', calories: 132, protein: 8.9, carbs: 23, fat: 0.5, fiber: 8.7 }
   ]);
 
-  const [meals, setMeals] = useState<Meal[]>([]);
-  const [dailyLog, setDailyLog] = useState<Meal[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]>([
+  const [meals, setMeals] = useState([]);
+  const [dailyLog, setDailyLog] = useState([]);
+  const [recipes, setRecipes] = useState([
     {
       id: 1,
       name: 'Pós-Treino Massa Muscular',
@@ -61,17 +28,6 @@ const GracieDietApp = () => {
         { ingredientId: 3, quantity: 200 }
       ],
       instructions: '1. Grelhe o frango com temperos naturais\n2. Cozinhe o arroz integral\n3. Asse a batata doce\n4. Sirva com vegetais frescos'
-    },
-    {
-      id: 2,
-      name: 'Lanche da Tarde Especial - Quinoa + Abacate + Açaí',
-      description: 'Combinação poderosa para energia e nutrição',
-      ingredients: [
-        { ingredientId: 9, quantity: 100 },
-        { ingredientId: 5, quantity: 80 },
-        { ingredientId: 10, quantity: 100 }
-      ],
-      instructions: '1. Cozinhe a quinoa até ficar macia\n2. Bata o abacate com açaí no liquidificador\n3. Misture a quinoa com a mistura batida\n4. Sirva gelado'
     }
   ]);
 
@@ -79,8 +35,8 @@ const GracieDietApp = () => {
     name: '', category: 'Proteína', calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0
   });
 
-  const [currentMeal, setCurrentMeal] = useState<MealItem[]>([]);
-  const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
+  const [currentMeal, setCurrentMeal] = useState([]);
+  const [editingIngredient, setEditingIngredient] = useState(null);
 
   // Categorias da Dieta Gracie adaptada
   const categories = ['Proteína', 'Carboidrato', 'Gordura', 'Fruta', 'Vegetal', 'Líquido'];
@@ -92,7 +48,7 @@ const GracieDietApp = () => {
     }
   };
 
-  const addToMeal = (ingredient: Ingredient, quantity = 100) => {
+  const addToMeal = (ingredient, quantity = 100) => {
     const existing = currentMeal.find(item => item.ingredient.id === ingredient.id);
     if (existing) {
       setCurrentMeal(currentMeal.map(item => 
@@ -107,7 +63,7 @@ const GracieDietApp = () => {
 
   const saveMeal = () => {
     if (currentMeal.length > 0) {
-      const meal: Meal = {
+      const meal = {
         id: Date.now(),
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString(),
@@ -119,7 +75,7 @@ const GracieDietApp = () => {
     }
   };
 
-  const calculateMealNutrition = (mealItems: MealItem[]) => {
+  const calculateMealNutrition = (mealItems) => {
     return mealItems.reduce((total, item) => {
       const multiplier = item.quantity / 100;
       return {
@@ -153,10 +109,10 @@ const GracieDietApp = () => {
     const today = new Date().toISOString().split('T')[0];
     const todaysMeals = meals.filter(meal => meal.date === today);
 
-  return (
+    return (
       <div className="space-y-6">
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg">
-          <h2 className="text-2xl font-bold mb-2">🥋 Dieta Gracie - Ganho de Massa</h2>
+          <h2 className="text-2xl font-bold mb-2">Dieta Gracie - Ganho de Massa</h2>
           <p className="text-blue-100">Controle completo da sua alimentação para hipertrofia</p>
         </div>
 
@@ -432,13 +388,13 @@ const GracieDietApp = () => {
   );
 
   const renderHistory = () => {
-    const groupedMeals: { [key: string]: Meal[] } = meals.reduce((acc, meal) => {
+    const groupedMeals = meals.reduce((acc, meal) => {
       if (!acc[meal.date]) {
         acc[meal.date] = [];
       }
       acc[meal.date].push(meal);
       return acc;
-    }, {} as { [key: string]: Meal[] });
+    }, {});
 
     return (
       <div className="space-y-6">
@@ -450,9 +406,9 @@ const GracieDietApp = () => {
           ) : (
             <div className="space-y-6">
               {Object.entries(groupedMeals)
-                .sort(([a], [b]) => new Date(b).getTime() - new Date(a).getTime())
+                .sort(([a], [b]) => new Date(b) - new Date(a))
                 .map(([date, dayMeals]) => {
-                  const dayNutrition = dayMeals.reduce((total: any, meal: Meal) => {
+                  const dayNutrition = dayMeals.reduce((total, meal) => {
                     const mealNutrition = calculateMealNutrition(meal.items);
                     return {
                       calories: total.calories + mealNutrition.calories,
@@ -543,10 +499,10 @@ const GracieDietApp = () => {
               </div>
               
               {(() => {
-                                 const recipeItems = recipe.ingredients.map(item => {
-                   const ingredient = ingredients.find(ing => ing.id === item.ingredientId);
-                   return ingredient ? { ingredient, quantity: item.quantity } : null;
-                 }).filter((item): item is MealItem => item !== null);
+                const recipeItems = recipe.ingredients.map(item => {
+                  const ingredient = ingredients.find(ing => ing.id === item.ingredientId);
+                  return ingredient ? { ingredient, quantity: item.quantity } : null;
+                }).filter(Boolean);
                 
                 const nutrition = calculateMealNutrition(recipeItems);
                 
@@ -660,6 +616,3 @@ const GracieDietApp = () => {
       </div>
     </div>
   );
-};
-
-export default GracieDietApp;

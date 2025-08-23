@@ -1,9 +1,13 @@
 @echo off
 echo ========================================
-echo    🥋 Dieta Gracie - App React
+echo    🥋 Dieta Gracie - App React LOCAL
 echo ========================================
 echo.
-echo Iniciando aplicativo web...
+echo Iniciando aplicativo web LOCAL...
+echo.
+echo ✅ Versão sem dependências do Google/Firebase
+echo ✅ Funciona completamente offline
+echo ✅ Cardápio completo da Dieta Gracie
 echo.
 
 REM Verificar se Node.js está instalado
@@ -26,9 +30,12 @@ if not exist "node_modules" (
     )
 )
 
-echo 🚀 Iniciando servidor de desenvolvimento...
+echo 🚀 Iniciando servidor de desenvolvimento LOCAL...
 echo.
-echo O aplicativo será aberto automaticamente no navegador.
+echo 🌐 O aplicativo será aberto em: http://localhost:5173
+echo 📱 Funciona em qualquer dispositivo na mesma rede
+echo 🔒 Dados salvos localmente - sem internet necessária
+echo.
 echo Para parar o servidor, pressione Ctrl+C
 echo.
 

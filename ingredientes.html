@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>➕ Ingredientes - Dieta Gracie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow mb-4 sm:mb-6">
+            <div class="flex flex-wrap border-b overflow-x-auto">
+                <a href="dashboard.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📊 Dashboard
+                </a>
+                <a href="ingredientes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 border-b-2 border-blue-600 text-blue-600 bg-blue-50 text-sm sm:text-base whitespace-nowrap">
+                    ➕ Ingredientes
+                </a>
+                <a href="refeicoes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    🎯 Refeições
+                </a>
+                <a href="receitas.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    👨‍🍳 Receitas
+                </a>
+                <a href="historico.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📅 Histórico
+                </a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-4 sm:space-y-6">
+            <!-- Informação sobre Insumos -->
+            <div class="bg-blue-50 border border-blue-200 p-4 sm:p-6 rounded-lg">
+                <h3 class="text-lg sm:text-xl font-semibold text-blue-800 mb-2">📋 Banco de Ingredientes</h3>
+                <p class="text-blue-700 text-sm sm:text-base mb-3">
+                    Esta página exibe todos os ingredientes disponíveis para suas refeições. Os dados são baseados no arquivo <strong>Insumos.csv</strong> do projeto.
+                </p>
+                <div class="bg-white p-3 sm:p-4 rounded border border-blue-200">
+                    <h4 class="font-semibold text-blue-800 mb-2 text-sm sm:text-base">💡 Como adicionar novos ingredientes:</h4>
+                    <ol class="text-blue-700 text-xs sm:text-sm space-y-1">
+                        <li>1. Abra o arquivo <code class="bg-blue-100 px-1 rounded">Insumos.csv</code> no projeto</li>
+                        <li>2. Adicione uma nova linha com os dados do ingrediente</li>
+                        <li>3. Salve o arquivo e atualize esta página</li>
+                        <li>4. O novo ingrediente aparecerá automaticamente na lista</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Banco de Ingredientes -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <h3 class="text-base sm:text-lg font-semibold p-4 sm:p-6 border-b">🍽️ Lista de Ingredientes Disponíveis</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm">Nome</th>
+                                <th class="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm">Categoria</th>
+                                <th class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">Calorias</th>
+                                <th class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">Proteína</th>
+                                <th class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">Carbs</th>
+                                <th class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">Gordura</th>
+                                <th class="px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-ingredientes" class="divide-y">
+                            <!-- Ingredientes serão inseridos aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados padrão dos ingredientes (baseados no Insumos.csv)
+        const ingredientesPadrao = [
+            { id: 1, name: 'Peito de Frango', category: 'Proteína', calories: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0 },
+            { id: 2, name: 'Fígado Bovino', category: 'Proteína', calories: 135, protein: 20, carbs: 3.9, fat: 3.6, fiber: 0 },
+            { id: 3, name: 'Contra-Filé', category: 'Proteína', calories: 250, protein: 26, carbs: 0, fat: 15, fiber: 0 },
+            { id: 4, name: 'Quinoa Grão Mix', category: 'Carboidrato', calories: 120, protein: 4.4, carbs: 21.3, fat: 1.9, fiber: 2.8 },
+            { id: 5, name: 'Aveia em Flocos', category: 'Carboidrato', calories: 389, protein: 16.9, carbs: 66, fat: 6.9, fiber: 10.6 },
+            { id: 6, name: 'Farelo de Aveia', category: 'Carboidrato', calories: 246, protein: 17.3, carbs: 66, fat: 7, fiber: 15.4 },
+            { id: 7, name: 'Nozes', category: 'Gordura', calories: 654, protein: 15, carbs: 14, fat: 65, fiber: 6.7 },
+            { id: 8, name: 'Amendoim Torrado', category: 'Gordura', calories: 567, protein: 25.8, carbs: 16, fat: 49, fiber: 8.5 },
+            { id: 9, name: 'Farinha de Aveia', category: 'Carboidrato', calories: 389, protein: 16.9, carbs: 66, fat: 6.9, fiber: 10.6 },
+            { id: 10, name: 'Quinoa Urbano', category: 'Carboidrato', calories: 120, protein: 4.4, carbs: 21.3, fat: 1.9, fiber: 2.8 },
+            { id: 11, name: 'Ovos', category: 'Proteína', calories: 155, protein: 13, carbs: 1.1, fat: 11, fiber: 0 },
+            { id: 12, name: 'Castanha do Pará', category: 'Gordura', calories: 656, protein: 14, carbs: 12, fat: 66, fiber: 7.5 },
+            { id: 13, name: 'Amendoim Cru', category: 'Gordura', calories: 567, protein: 25.8, carbs: 16, fat: 49, fiber: 8.5 },
+            { id: 14, name: 'Sardinha', category: 'Proteína', calories: 208, protein: 24, carbs: 0, fat: 12, fiber: 0 },
+            { id: 15, name: 'Atum', category: 'Proteína', calories: 144, protein: 30, carbs: 0, fat: 1, fiber: 0 },
+            { id: 16, name: 'Batata Doce', category: 'Carboidrato', calories: 86, protein: 1.6, carbs: 20, fat: 0.1, fiber: 3 },
+            { id: 17, name: 'Batata Doce Roxa', category: 'Carboidrato', calories: 86, protein: 1.6, carbs: 20, fat: 0.1, fiber: 3 },
+            { id: 18, name: 'Cenoura', category: 'Vegetal', calories: 41, protein: 0.9, carbs: 10, fat: 0.2, fiber: 2.8 },
+            { id: 19, name: 'Abacate', category: 'Gordura', calories: 160, protein: 2, carbs: 8.5, fat: 15, fiber: 6.7 },
+            { id: 20, name: 'Brócolis', category: 'Vegetal', calories: 34, protein: 2.8, carbs: 7, fat: 0.4, fiber: 2.6 },
+            { id: 21, name: 'Couve Flor', category: 'Vegetal', calories: 25, protein: 1.9, carbs: 5, fat: 0.3, fiber: 2 },
+            { id: 22, name: 'Açaí', category: 'Fruta', calories: 70, protein: 4, carbs: 4, fat: 5, fiber: 2.5 },
+            { id: 23, name: 'Arroz Branco', category: 'Carboidrato', calories: 130, protein: 2.7, carbs: 28, fat: 0.3, fiber: 0.4 },
+            { id: 24, name: 'Banana', category: 'Fruta', calories: 89, protein: 1.1, carbs: 23, fat: 0.3, fiber: 2.6 }
+        ];
+
+        // Carregar ingredientes do localStorage ou usar padrão
+        function carregarIngredientes() {
+            const ingredientes = JSON.parse(localStorage.getItem('ingredientes') || JSON.stringify(ingredientesPadrao));
+            return ingredientes;
+        }
+
+        // Salvar ingredientes no localStorage
+        function salvarIngredientes(ingredientes) {
+            localStorage.setItem('ingredientes', JSON.stringify(ingredientes));
+        }
+
+        // Renderizar tabela de ingredientes
+        function renderizarTabela() {
+            const ingredientes = carregarIngredientes();
+            const tbody = document.getElementById('tabela-ingredientes');
+            
+            tbody.innerHTML = ingredientes.map(ingrediente => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-2 sm:px-4 py-2 sm:py-3 font-medium text-xs sm:text-sm">${ingrediente.name}</td>
+                    <td class="px-2 sm:px-4 py-2 sm:py-3">
+                        <span class="px-1 sm:px-2 py-1 rounded-full text-xs ${getCategoriaClass(ingrediente.category)}">
+                            ${ingrediente.category}
+                        </span>
+                    </td>
+                    <td class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">${ingrediente.calories}</td>
+                    <td class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">${ingrediente.protein}g</td>
+                    <td class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">${ingrediente.carbs}g</td>
+                    <td class="px-2 sm:px-4 py-2 sm:py-3 text-right text-xs sm:text-sm">${ingrediente.fat}g</td>
+                    <td class="px-2 sm:px-4 py-2 sm:py-3 text-center">
+                        <button
+                            onclick="adicionarARefeicao(${ingrediente.id})"
+                            class="text-blue-600 hover:text-blue-800 text-sm sm:text-base"
+                            title="Adicionar à refeição"
+                        >
+                            ➕
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Obter classe CSS para categoria
+        function getCategoriaClass(categoria) {
+            const classes = {
+                'Proteína': 'bg-red-100 text-red-700',
+                'Carboidrato': 'bg-green-100 text-green-700',
+                'Gordura': 'bg-yellow-100 text-yellow-700',
+                'Fruta': 'bg-orange-100 text-orange-700',
+                'Vegetal': 'bg-green-100 text-green-700',
+                'Líquido': 'bg-blue-100 text-blue-700'
+            };
+            return classes[categoria] || 'bg-gray-100 text-gray-700';
+        }
+
+        // Adicionar ingrediente à refeição
+        function adicionarARefeicao(ingredienteId) {
+            const ingredientes = carregarIngredientes();
+            const ingrediente = ingredientes.find(i => i.id === ingredienteId);
+            
+            if (ingrediente) {
+                // Salvar no localStorage para usar na página de refeições
+                const refeicaoAtual = JSON.parse(localStorage.getItem('refeicaoAtual') || '[]');
+                refeicaoAtual.push({
+                    ingrediente: ingrediente,
+                    quantidade: 100
+                });
+                localStorage.setItem('refeicaoAtual', JSON.stringify(refeicaoAtual));
+                
+                alert(`${ingrediente.name} adicionado à refeição atual!`);
+            }
+        }
+        
+        // Inicializar
+        renderizarTabela();
+    </script>
+</body>
+</html>
