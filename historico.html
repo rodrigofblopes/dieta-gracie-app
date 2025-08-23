@@ -346,6 +346,10 @@
             const container = document.getElementById('detalhes-refeicoes');
             const diasArray = Array.from(diasSelecionados);
 
+            // Debug: verificar datas selecionadas
+            console.log('Dias selecionados:', diasArray);
+            console.log('Dados nutricionais:', dadosNutricionais);
+
             if (diasArray.length === 0) {
                 container.innerHTML = '<p class="text-gray-500 text-center py-8">Selecione um dia no calendário para ver as refeições</p>';
                 return;
@@ -354,6 +358,9 @@
             const refeicoesSelecionadas = dadosNutricionais.filter(refeicao => 
                 diasArray.includes(refeicao.data)
             );
+
+            // Debug: verificar refeições encontradas
+            console.log('Refeições selecionadas:', refeicoesSelecionadas);
 
             if (refeicoesSelecionadas.length === 0) {
                 container.innerHTML = '<p class="text-gray-500 text-center py-8">Nenhuma refeição encontrada para os dias selecionados</p>';
@@ -382,7 +389,6 @@
 
                 refeicoes.forEach(refeicao => {
                     const horario = refeicao.horario || 'Horário não registrado';
-                    const dataFormatada = new Date(data).toLocaleDateString('pt-BR');
                     
                     html += `
                         <div class="bg-gray-50 p-3 rounded relative group">
