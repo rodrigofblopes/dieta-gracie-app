@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getAnalytics } from 'firebase/analytics';
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -10,8 +9,7 @@ const firebaseConfig = {
   projectId: "dieta-gracie-app",
   storageBucket: "dieta-gracie-app.firebasestorage.app",
   messagingSenderId: "191357835216",
-  appId: "1:191357835216:web:9d71f6a529e04ef6b2cbd5",
-  measurementId: "G-QHGB6EYJC0"
+  appId: "1:191357835216:web:9d71f6a529e04ef6b2cbd5"
 };
 
 // Inicializar Firebase
@@ -21,6 +19,5 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
-export const analytics = getAnalytics(app);
 
 export default app;

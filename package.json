@@ -1,6 +1,7 @@
 {
   "name": "gracie-diet-app",
   "version": "1.0.0",
+  "type": "module",
   "description": "Aplicativo para controle da Dieta Gracie adaptada para ganho de massa muscular",
   "main": "index.js",
   "scripts": {
