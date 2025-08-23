@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Sincronização - Dieta Gracie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="sync-manager.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow mb-4 sm:mb-6">
+            <div class="flex flex-wrap border-b overflow-x-auto">
+                <a href="dashboard.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📊 Dashboard
+                </a>
+                <a href="ingredientes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    ➕ Ingredientes
+                </a>
+                <a href="refeicoes.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    🎯 Refeições
+                </a>
+                <a href="receitas.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    👨‍🍳 Receitas
+                </a>
+                <a href="historico.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    📅 Histórico
+                </a>
+                <a href="sincronizacao.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 border-b-2 border-blue-600 text-blue-600 bg-blue-50 text-sm sm:text-base whitespace-nowrap">
+                    🔄 Sincronização
+                </a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-4 sm:space-y-6">
+            <!-- Header da Página -->
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6 rounded-lg">
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">🔄 Sincronização de Dados</h2>
+                <p class="text-blue-100 text-sm sm:text-base">Gerencie seus dados entre computador e celular</p>
+            </div>
+
+            <!-- Status da Conexão -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">📡 Status da Conexão</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span id="status-icon" class="text-2xl">🌐</span>
+                            <span class="font-semibold text-green-800">Status</span>
+                        </div>
+                        <p id="status-text" class="text-green-700 text-sm">Conectado</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-2xl">💾</span>
+                            <span class="font-semibold text-blue-800">Tamanho dos Dados</span>
+                        </div>
+                        <p id="data-size" class="text-blue-700 text-sm">0 KB</p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-2xl">📅</span>
+                            <span class="font-semibold text-purple-800">Último Backup</span>
+                        </div>
+                        <p id="last-backup" class="text-purple-700 text-sm">Nunca</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exportar Dados -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">📤 Exportar Dados</h3>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
+                    <h4 class="font-semibold text-blue-800 mb-2">💡 Como usar:</h4>
+                    <ol class="text-blue-700 text-sm space-y-1">
+                        <li>1. Clique em "Exportar Backup" para baixar seus dados</li>
+                        <li>2. Envie o arquivo para seu celular (WhatsApp, email, etc.)</li>
+                        <li>3. No celular, clique em "Importar Backup" e selecione o arquivo</li>
+                        <li>4. Seus dados estarão sincronizados!</li>
+                    </ol>
+                </div>
+                <button onclick="exportarDados()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    📤 Exportar Backup
+                </button>
+            </div>
+
+            <!-- Importar Dados -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">📥 Importar Dados</h3>
+                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-4">
+                    <h4 class="font-semibold text-yellow-800 mb-2">⚠️ Atenção:</h4>
+                    <p class="text-yellow-700 text-sm">Importar dados irá substituir todos os dados atuais. Faça um backup antes se necessário.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <input type="file" id="import-file" accept=".json" class="hidden" onchange="importarDados(this)">
+                    <button onclick="document.getElementById('import-file').click()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                        📥 Selecionar Arquivo
+                    </button>
+                    <span id="selected-file" class="text-gray-600 text-sm">Nenhum arquivo selecionado</span>
+                </div>
+            </div>
+
+            <!-- Sincronização Automática -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">🔄 Sincronização Automática</h3>
+                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">🚧 Em Desenvolvimento:</h4>
+                    <p class="text-gray-700 text-sm">Sincronização automática via nuvem será implementada em breve.</p>
+                </div>
+                <button onclick="sincronizarNuvem()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors" disabled>
+                    🔄 Sincronizar com Nuvem (Em breve)
+                </button>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">📊 Estatísticas dos Dados</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-gradient-to-r from-green-400 to-green-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="total-ingredientes">0</div>
+                        <div class="text-sm">Ingredientes</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="total-refeicoes">0</div>
+                        <div class="text-sm">Refeições</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-purple-400 to-purple-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="dias-ativos">0</div>
+                        <div class="text-sm">Dias Ativos</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-orange-400 to-orange-600 text-white p-4 rounded-lg">
+                        <div class="text-2xl font-bold" id="ultima-atualizacao">Hoje</div>
+                        <div class="text-sm">Última Atualização</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let syncManager;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            syncManager = new SyncManager();
+            atualizarStatus();
+            atualizarEstatisticas();
+            
+            // Atualizar a cada 30 segundos
+            setInterval(atualizarStatus, 30000);
+        });
+
+        // Exportar dados
+        function exportarDados() {
+            syncManager.exportAllData();
+            localStorage.setItem('lastBackup', new Date().toISOString());
+            atualizarStatus();
+        }
+
+        // Importar dados
+        function importarDados(input) {
+            const file = input.files[0];
+            if (file) {
+                document.getElementById('selected-file').textContent = file.name;
+                syncManager.importData(file);
+                localStorage.setItem('lastBackup', new Date().toISOString());
+                setTimeout(() => {
+                    atualizarStatus();
+                    atualizarEstatisticas();
+                }, 1000);
+            }
+        }
+
+        // Sincronizar com nuvem (simulado)
+        function sincronizarNuvem() {
+            syncManager.syncWithGoogleDrive();
+        }
+
+        // Atualizar status
+        function atualizarStatus() {
+            const status = syncManager.getConnectionStatus();
+            
+            // Status da conexão
+            const statusIcon = document.getElementById('status-icon');
+            const statusText = document.getElementById('status-text');
+            
+            if (status.online) {
+                statusIcon.textContent = '🌐';
+                statusText.textContent = 'Conectado';
+            } else {
+                statusIcon.textContent = '📱';
+                statusText.textContent = 'Offline';
+            }
+            
+            // Tamanho dos dados
+            document.getElementById('data-size').textContent = status.dataSize;
+            
+            // Último backup
+            const lastBackup = status.lastBackup;
+            if (lastBackup) {
+                const date = new Date(lastBackup);
+                document.getElementById('last-backup').textContent = date.toLocaleDateString('pt-BR');
+            } else {
+                document.getElementById('last-backup').textContent = 'Nunca';
+            }
+        }
+
+        // Atualizar estatísticas
+        function atualizarEstatisticas() {
+            // Total de ingredientes
+            const ingredientes = JSON.parse(localStorage.getItem('ingredientes') || '[]');
+            document.getElementById('total-ingredientes').textContent = ingredientes.length;
+            
+            // Total de refeições
+            const dadosNutricionais = JSON.parse(localStorage.getItem('dadosNutricionais') || '{}');
+            const totalRefeicoes = Object.values(dadosNutricionais).reduce((total, refeicoes) => total + refeicoes.length, 0);
+            document.getElementById('total-refeicoes').textContent = totalRefeicoes;
+            
+            // Dias ativos
+            const diasAtivos = Object.keys(dadosNutricionais).length;
+            document.getElementById('dias-ativos').textContent = diasAtivos;
+            
+            // Última atualização
+            const hoje = new Date().toLocaleDateString('pt-BR');
+            document.getElementById('ultima-atualizacao').textContent = hoje;
+        }
+    </script>
+</body>
+</html>
