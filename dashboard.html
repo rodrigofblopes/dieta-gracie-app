@@ -108,16 +108,59 @@
                     </div>
                 </div>
                 
-                <!-- Refeições do Dia Selecionado -->
-                <div class="border-t pt-3 sm:pt-4">
-                    <h4 class="font-medium mb-2 sm:mb-3 text-sm sm:text-base">
-                        Refeições de <span id="dia-selecionado">Hoje</span>
-                        (<span id="num-refeicoes-dia">0</span>)
-                    </h4>
-                    <div id="refeicoes-dia" class="space-y-2 sm:space-y-3">
-                        <p class="text-gray-500 text-center py-3 sm:py-4 text-sm">Selecione um dia no calendário para ver as refeições</p>
-                    </div>
-                </div>
+                                 <!-- Refeições do Dia Selecionado -->
+                 <div class="border-t pt-3 sm:pt-4">
+                     <h4 class="font-medium mb-2 sm:mb-3 text-sm sm:text-base">
+                         Refeições de <span id="dia-selecionado">Hoje</span>
+                         (<span id="num-refeicoes-dia">0</span>)
+                     </h4>
+                     
+                     <!-- Progresso Diário -->
+                     <div id="progresso-diario" class="mb-3 sm:mb-4 hidden">
+                         <h5 class="text-sm font-medium text-gray-700 mb-2">📊 Progresso do Dia</h5>
+                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                             <div class="bg-red-50 p-2 rounded">
+                                 <div class="text-red-600 font-medium">Calorias</div>
+                                 <div id="progresso-calorias" class="text-red-800">0/3000</div>
+                                 <div class="w-full bg-red-200 rounded-full h-1 mt-1">
+                                     <div id="barra-calorias" class="bg-red-500 h-1 rounded-full" style="width: 0%"></div>
+                                 </div>
+                             </div>
+                             <div class="bg-blue-50 p-2 rounded">
+                                 <div class="text-blue-600 font-medium">Proteína</div>
+                                 <div id="progresso-proteina" class="text-blue-800">0/160g</div>
+                                 <div class="w-full bg-blue-200 rounded-full h-1 mt-1">
+                                     <div id="barra-proteina" class="bg-blue-500 h-1 rounded-full" style="width: 0%"></div>
+                                 </div>
+                             </div>
+                             <div class="bg-green-50 p-2 rounded">
+                                 <div class="text-green-600 font-medium">Carbs</div>
+                                 <div id="progresso-carbs" class="text-green-800">0/300g</div>
+                                 <div class="w-full bg-green-200 rounded-full h-1 mt-1">
+                                     <div id="barra-carbs" class="bg-green-500 h-1 rounded-full" style="width: 0%"></div>
+                                 </div>
+                             </div>
+                             <div class="bg-yellow-50 p-2 rounded">
+                                 <div class="text-yellow-600 font-medium">Gorduras</div>
+                                 <div id="progresso-gorduras" class="text-yellow-800">0/80g</div>
+                                 <div class="w-full bg-yellow-200 rounded-full h-1 mt-1">
+                                     <div id="barra-gorduras" class="bg-yellow-500 h-1 rounded-full" style="width: 0%"></div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     
+                     <div id="refeicoes-dia" class="space-y-2 sm:space-y-3">
+                         <p class="text-gray-500 text-center py-3 sm:py-4 text-sm">Selecione um dia no calendário para ver as refeições</p>
+                     </div>
+                     
+                     <!-- Botão Adicionar Refeição -->
+                     <div class="border-t pt-3 sm:pt-4">
+                         <button onclick="adicionarRefeicao()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                             ➕ Adicionar Refeição
+                         </button>
+                     </div>
+                 </div>
             </div>
 
 
@@ -259,6 +302,7 @@
             const container = document.getElementById('refeicoes-dia');
             const diaSelecionadoElement = document.getElementById('dia-selecionado');
             const numRefeicoesElement = document.getElementById('num-refeicoes-dia');
+            const progressoDiario = document.getElementById('progresso-diario');
             
             // Formatar data
             const data = new Date(dataStr + 'T00:00:00');
@@ -277,6 +321,7 @@
             numRefeicoesElement.textContent = refeicoes.length;
             
             if (refeicoes.length === 0) {
+                progressoDiario.classList.add('hidden');
                 container.innerHTML = '<p class="text-gray-500 text-center py-4">Nenhuma refeição registrada neste dia</p>';
             } else {
                 // Calcular totais do dia
@@ -289,29 +334,80 @@
                     };
                 }, { calorias: 0, proteina: 0, carbs: 0, gordura: 0 });
                 
-                                 container.innerHTML = `
-                     <div class="bg-gray-50 p-2 sm:p-3 rounded mb-3 sm:mb-4">
-                         <h5 class="font-medium mb-1 sm:mb-2 text-sm">Resumo do Dia:</h5>
-                         <div class="grid grid-cols-2 gap-1 sm:gap-2 text-xs sm:text-sm">
-                             <div>Calorias: <strong>${Math.round(totais.calorias)}</strong></div>
-                             <div>Proteína: <strong>${Math.round(totais.proteina)}g</strong></div>
-                             <div>Carbs: <strong>${Math.round(totais.carbs)}g</strong></div>
-                             <div>Gordura: <strong>${Math.round(totais.gordura)}g</strong></div>
-                         </div>
-                     </div>
-                     ${refeicoes.map(refeicao => `
-                         <div class="border rounded-lg p-3 sm:p-4">
-                             <div class="flex justify-between items-center mb-1 sm:mb-2">
-                                 <span class="font-medium text-sm sm:text-base">🕐 ${refeicao.horario}</span>
-                                 <span class="text-xs sm:text-sm text-gray-500">${Math.round(refeicao.calorias)} kcal</span>
-                             </div>
-                             <div class="text-xs sm:text-sm text-gray-600">${refeicao.alimentos.join(', ')}</div>
-                         </div>
-                     `).join('')}
-                 `;
+                // Mostrar progresso diário
+                progressoDiario.classList.remove('hidden');
+                atualizarProgressoDiario(totais);
+                
+                container.innerHTML = `
+                    <div class="bg-gray-50 p-2 sm:p-3 rounded mb-3 sm:mb-4">
+                        <h5 class="font-medium mb-1 sm:mb-2 text-sm">Resumo do Dia:</h5>
+                        <div class="grid grid-cols-2 gap-1 sm:gap-2 text-xs sm:text-sm">
+                            <div>Calorias: <strong>${Math.round(totais.calorias)}</strong></div>
+                            <div>Proteína: <strong>${Math.round(totais.proteina)}g</strong></div>
+                            <div>Carbs: <strong>${Math.round(totais.carbs)}g</strong></div>
+                            <div>Gordura: <strong>${Math.round(totais.gordura)}g</strong></div>
+                        </div>
+                    </div>
+                    ${refeicoes.map(refeicao => `
+                        <div class="border rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                            <div class="flex justify-between items-center mb-1 sm:mb-2">
+                                <span class="font-medium text-sm sm:text-base">🕐 ${refeicao.horario}</span>
+                                <span class="text-xs sm:text-sm text-gray-500">${Math.round(refeicao.calorias)} kcal</span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-gray-600 mb-2">${refeicao.alimentos.join(', ')}</div>
+                            <div class="flex gap-2 text-xs text-gray-500">
+                                <span>P: ${Math.round(refeicao.proteina || 0)}g</span>
+                                <span>C: ${Math.round(refeicao.carbs || 0)}g</span>
+                                <span>G: ${Math.round(refeicao.gordura || 0)}g</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
             }
         }
         
+        // Atualizar progresso diário
+        function atualizarProgressoDiario(totais) {
+            const metas = {
+                calorias: 3000,
+                proteina: 160,
+                carbs: 300,
+                gorduras: 80
+            };
+            
+            // Atualizar textos e barras de progresso
+            Object.keys(totais).forEach(nutriente => {
+                const atual = Math.round(totais[nutriente]);
+                const meta = metas[nutriente];
+                const percentual = Math.min((atual / meta) * 100, 100);
+                
+                // Atualizar texto
+                const elementoTexto = document.getElementById(`progresso-${nutriente}`);
+                if (elementoTexto) {
+                    elementoTexto.textContent = `${atual}/${meta}${nutriente === 'calorias' ? '' : 'g'}`;
+                }
+                
+                // Atualizar barra
+                const barra = document.getElementById(`barra-${nutriente}`);
+                if (barra) {
+                    barra.style.width = `${percentual}%`;
+                    
+                    // Mudar cor baseado no progresso
+                    if (percentual >= 100) {
+                        barra.className = barra.className.replace(/bg-\w+-500/, 'bg-green-500');
+                    } else if (percentual >= 80) {
+                        barra.className = barra.className.replace(/bg-\w+-500/, 'bg-yellow-500');
+                    }
+                }
+            });
+        }
+
+        // Adicionar refeição
+        function adicionarRefeicao() {
+            // Abrir página de refeições em nova aba
+            window.open('refeicoes.html', '_blank');
+        }
+
         // Inicializar
         console.log('Inicializando calendário...');
         atualizarDataAtual(); // Força atualização da data atual

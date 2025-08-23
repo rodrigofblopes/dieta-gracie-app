@@ -303,13 +303,18 @@
                 dadosNutricionais[dataRefeicao] = [];
             }
             
-            dadosNutricionais[dataRefeicao].push({
+            // Criar objeto da refeição
+            const novaRefeicao = {
                 id: Date.now(),
                 horario: horarioRefeicao,
                 alimentos: refeicaoAtual.map(item => `${item.ingrediente.name} (${item.quantidade}g)`),
-                ...nutrientes
-            });
+                ingredientes: refeicaoAtual, // Salvar dados completos
+                ...nutrientes,
+                data: dataRefeicao,
+                timestamp: new Date().toISOString()
+            };
             
+            dadosNutricionais[dataRefeicao].push(novaRefeicao);
             localStorage.setItem('dadosNutricionais', JSON.stringify(dadosNutricionais));
             
             // Limpar refeição atual
@@ -320,7 +325,46 @@
             document.getElementById('data-refeicao').value = '';
             document.getElementById('horario-refeicao').value = '';
             
-            alert('Refeição salva com sucesso!');
+            // Mostrar notificação de sucesso
+            mostrarNotificacao('✅ Refeição salva com sucesso!', 'success');
+            
+            // Atualizar dashboard se estiver na mesma aba
+            if (window.opener && !window.opener.closed) {
+                window.opener.location.reload();
+            }
+        }
+
+        // Mostrar notificação
+        function mostrarNotificacao(mensagem, tipo = 'info') {
+            // Remover notificação anterior se existir
+            const notificacaoAnterior = document.getElementById('notificacao');
+            if (notificacaoAnterior) {
+                notificacaoAnterior.remove();
+            }
+            
+            // Criar nova notificação
+            const notificacao = document.createElement('div');
+            notificacao.id = 'notificacao';
+            notificacao.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm ${
+                tipo === 'success' ? 'bg-green-500 text-white' : 
+                tipo === 'error' ? 'bg-red-500 text-white' : 
+                'bg-blue-500 text-white'
+            }`;
+            notificacao.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">${tipo === 'success' ? '✅' : tipo === 'error' ? '❌' : 'ℹ️'}</span>
+                    <span>${mensagem}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notificacao);
+            
+            // Remover após 3 segundos
+            setTimeout(() => {
+                if (notificacao.parentNode) {
+                    notificacao.remove();
+                }
+            }, 3000);
         }
 
         // Definir data e horário padrão
