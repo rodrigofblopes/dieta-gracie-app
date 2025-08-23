@@ -382,6 +382,7 @@
 
                 refeicoes.forEach(refeicao => {
                     const horario = refeicao.horario || 'Horário não registrado';
+                    const dataFormatada = new Date(data).toLocaleDateString('pt-BR');
                     
                     html += `
                         <div class="bg-gray-50 p-3 rounded relative group">
@@ -390,7 +391,7 @@
                                 <div class="flex items-center gap-2">
                                     <span class="text-sm text-gray-600">${Math.round(refeicao.calorias || 0)} cal</span>
                                     <button 
-                                        onclick="excluirRefeicao('${refeicao.id}', '${data}', '${horario}')"
+                                        onclick="excluirRefeicao(${refeicao.id}, '${data}', '${horario.replace(/'/g, "\\'")}')"
                                         class="text-red-500 hover:text-red-700 text-lg opacity-0 group-hover:opacity-100 transition-opacity"
                                         title="Excluir refeição"
                                     >
@@ -448,10 +449,18 @@
 
         // Excluir refeição
         function excluirRefeicao(id, data, horario) {
-            refeicaoParaExcluir = { id, data, horario };
+            refeicaoParaExcluir = { id: parseInt(id), data, horario };
+            
+            // Debug: verificar se o ID existe
+            const refeicaoEncontrada = dadosNutricionais.find(r => r.id === parseInt(id));
+            if (!refeicaoEncontrada) {
+                mostrarNotificacao('❌ Refeição não encontrada. Tente novamente.', 'error');
+                return;
+            }
             
             // Preencher modal de confirmação
-            document.getElementById('data-refeicao-excluir').textContent = data;
+            const dataFormatada = new Date(data).toLocaleDateString('pt-BR');
+            document.getElementById('data-refeicao-excluir').textContent = dataFormatada;
             document.getElementById('horario-refeicao-excluir').textContent = horario;
             
             // Mostrar modal
@@ -488,6 +497,8 @@
                 atualizarResumo();
                 mostrarDetalhesRefeicoes();
                 atualizarEstatisticas();
+            } else {
+                mostrarNotificacao('❌ Erro ao excluir refeição. Tente novamente.', 'error');
             }
         }
 
