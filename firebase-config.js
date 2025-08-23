@@ -24,13 +24,23 @@ class CloudSync {
         this.userId = this.getUserId();
         this.isOnline = navigator.onLine;
         this.setupOfflineSupport();
+        this.setupAutoSync();
+        
+        // Carregar dados automaticamente ao iniciar
+        this.autoLoad().then(loaded => {
+            if (loaded) {
+                this.showNotification('☁️ Dados sincronizados automaticamente!', 'success');
+            }
+        });
     }
 
-    // Gerar ID único do usuário (baseado no dispositivo)
+    // Gerar ID único do usuário (fixo para sincronização)
     getUserId() {
+        // Usar ID fixo para sincronização entre dispositivos
         let userId = localStorage.getItem('userId');
         if (!userId) {
-            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            // ID fixo para sincronização - você pode alterar se quiser
+            userId = 'dieta_gracie_user_2025';
             localStorage.setItem('userId', userId);
         }
         return userId;
@@ -138,6 +148,34 @@ class CloudSync {
         if (localData) {
             await this.saveToCloud(JSON.parse(localData));
         }
+    }
+
+    // Sincronização automática quando dados mudam
+    setupAutoSync() {
+        // Monitorar mudanças no localStorage
+        const originalSetItem = localStorage.setItem;
+        localStorage.setItem = function(key, value) {
+            originalSetItem.apply(this, arguments);
+            
+            // Se dados nutricionais mudaram, sincronizar automaticamente
+            if (key === 'dadosNutricionais' && window.cloudSync) {
+                setTimeout(() => {
+                    window.cloudSync.saveToCloud(JSON.parse(value));
+                }, 1000); // Aguardar 1 segundo para evitar muitas sincronizações
+            }
+        };
+    }
+
+    // Carregar dados automaticamente ao iniciar
+    async autoLoad() {
+        if (this.isOnline) {
+            const cloudData = await this.loadFromCloud();
+            if (cloudData) {
+                localStorage.setItem('dadosNutricionais', JSON.stringify(cloudData));
+                return true;
+            }
+        }
+        return false;
     }
 
     // Mostrar notificação
