@@ -177,11 +177,28 @@
             atualizarEstatisticas();
         });
 
+        // Atualizar dados quando a página ganhar foco (quando voltar de outras páginas)
+        window.addEventListener('focus', function() {
+            carregarDados();
+            renderizarCalendario();
+            atualizarEstatisticas();
+        });
+
         // Carregar dados do localStorage
         function carregarDados() {
             const dados = localStorage.getItem('dadosNutricionais');
             if (dados) {
-                dadosNutricionais = JSON.parse(dados);
+                const dadosObj = JSON.parse(dados);
+                // Converter de {data: [refeicoes]} para array de refeições
+                dadosNutricionais = [];
+                Object.keys(dadosObj).forEach(data => {
+                    dadosObj[data].forEach(refeicao => {
+                        dadosNutricionais.push({
+                            ...refeicao,
+                            data: data
+                        });
+                    });
+                });
             }
         }
 
@@ -311,10 +328,8 @@
             let totalProteina = 0;
 
             refeicoesSelecionadas.forEach(refeicao => {
-                if (refeicao.nutricao) {
-                    totalCalorias += refeicao.nutricao.calorias || 0;
-                    totalProteina += refeicao.nutricao.proteina || 0;
-                }
+                totalCalorias += refeicao.calorias || 0;
+                totalProteina += refeicao.proteina || 0;
             });
 
             document.getElementById('dias-selecionados').textContent = diasArray.length;
@@ -364,23 +379,20 @@
 
                 refeicoes.forEach(refeicao => {
                     const horario = refeicao.horario || 'Horário não registrado';
-                    const nutricao = refeicao.nutricao || {};
                     
                     html += `
                         <div class="bg-gray-50 p-3 rounded">
                             <div class="flex justify-between items-start mb-2">
                                 <span class="font-medium">🕐 ${horario}</span>
-                                <span class="text-sm text-gray-600">${nutricao.calorias || 0} cal</span>
+                                <span class="text-sm text-gray-600">${Math.round(refeicao.calorias || 0)} cal</span>
                             </div>
                             <div class="text-sm text-gray-600 mb-2">
-                                <span class="mr-3">Proteína: ${nutricao.proteina || 0}g</span>
-                                <span class="mr-3">Carbs: ${nutricao.carbs || 0}g</span>
-                                <span>Gordura: ${nutricao.gordura || 0}g</span>
+                                <span class="mr-3">Proteína: ${Math.round(refeicao.proteina || 0)}g</span>
+                                <span class="mr-3">Carbs: ${Math.round(refeicao.carbs || 0)}g</span>
+                                <span>Gordura: ${Math.round(refeicao.gordura || 0)}g</span>
                             </div>
                             <div class="text-xs text-gray-500">
-                                ${refeicao.ingredientes ? refeicao.ingredientes.map(ing => 
-                                    `${ing.ingrediente.name} (${ing.quantidade}g)`
-                                ).join(', ') : 'Ingredientes não disponíveis'}
+                                ${refeicao.alimentos ? refeicao.alimentos.join(', ') : 'Ingredientes não disponíveis'}
                             </div>
                         </div>
                     `;
@@ -407,8 +419,8 @@
 
             // Calcular estatísticas
             const diasUnicos = new Set(dadosNutricionais.map(r => r.data));
-            const totalCalorias = dadosNutricionais.reduce((sum, r) => sum + (r.nutricao?.calorias || 0), 0);
-            const totalProteina = dadosNutricionais.reduce((sum, r) => sum + (r.nutricao?.proteina || 0), 0);
+            const totalCalorias = dadosNutricionais.reduce((sum, r) => sum + (r.calorias || 0), 0);
+            const totalProteina = dadosNutricionais.reduce((sum, r) => sum + (r.proteina || 0), 0);
 
             const mediaCalorias = diasUnicos.size > 0 ? totalCalorias / diasUnicos.size : 0;
             const mediaProteina = diasUnicos.size > 0 ? totalProteina / diasUnicos.size : 0;
