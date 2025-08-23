@@ -1143,6 +1143,12 @@ const GracieDietApp = () => {
                 📥 Exportar JSON
               </button>
               <button
+                onClick={importLocalData}
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-sm"
+              >
+                📁 Importar Dados Locais
+              </button>
+              <button
                 onClick={clearAllMeals}
                 className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm"
               >
@@ -1848,6 +1854,63 @@ const GracieDietApp = () => {
         </div>
       </div>
     );
+  };
+
+  // Função para importar dados do JSON local
+  const importLocalData = async () => {
+    try {
+      const response = await fetch('/registros_nutricionais.json');
+      const data = await response.json();
+      
+      const importedMeals = [];
+      
+      // Converter dados do formato antigo para o novo formato
+      Object.entries(data.registros).forEach(([date, meals]) => {
+        meals.forEach((meal, index) => {
+          const newMeal = {
+            id: `${date}-${meal.hora.replace(':', '-')}-${index}`,
+            date: date,
+            time: meal.hora,
+            items: [{
+              name: meal.alimento,
+              weight: meal.peso,
+              category: meal.categoria,
+              protein: meal.proteina,
+              carbs: meal.carboidrato,
+              fat: meal.gordura,
+              calories: meal.calorias,
+              fiber: meal.fibra,
+              benefits: meal.beneficios
+            }],
+            totalNutrition: {
+              protein: meal.proteina,
+              carbs: meal.carboidrato,
+              fat: meal.gordura,
+              calories: meal.calorias,
+              fiber: meal.fibra
+            }
+          };
+          importedMeals.push(newMeal);
+        });
+      });
+      
+      // Adicionar aos dados existentes
+      const updatedMeals = [...meals, ...importedMeals];
+      setMeals(updatedMeals);
+      
+      // Salvar no localStorage
+      localStorage.setItem('meals', JSON.stringify(updatedMeals));
+      
+      // Sincronizar com Firebase se logado
+      if (user) {
+        await syncMeals(updatedMeals);
+      }
+      
+      alert(`✅ Importados ${importedMeals.length} registros do arquivo local!`);
+    } catch (error) {
+      console.error('Erro ao importar dados:', error);
+      alert('❌ Erro ao importar dados do arquivo local');
+    }
   };
 
   return (
