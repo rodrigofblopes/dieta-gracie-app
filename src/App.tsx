@@ -1913,6 +1913,117 @@ const GracieDietApp = () => {
     }
   };
 
+  // Estados para perfil personalizado
+  const [userProfile, setUserProfile] = useState({
+    name: '',
+    age: 30,
+    weight: 70,
+    height: 170,
+    activityLevel: 'moderate', // sedentary, light, moderate, active, very_active
+    goal: 'muscle_gain', // muscle_gain, weight_loss, maintenance, performance
+    trainingDays: 4,
+    dietaryRestrictions: [],
+    allergies: []
+  });
+
+  const [showProfileModal, setShowProfileModal] = useState(false);
+
+  // Calcular necessidades nutricionais personalizadas
+  const calculatePersonalizedNutrition = () => {
+    const { age, weight, height, activityLevel, goal, trainingDays } = userProfile;
+    
+    // TMB (Taxa Metabólica Basal) - Fórmula de Mifflin-St Jeor
+    const tmb = 10 * weight + 6.25 * height - 5 * age + 5;
+    
+    // Fatores de atividade
+    const activityFactors = {
+      sedentary: 1.2,
+      light: 1.375,
+      moderate: 1.55,
+      active: 1.725,
+      very_active: 1.9
+    };
+    
+    // Calorias base
+    let dailyCalories = tmb * activityFactors[activityLevel];
+    
+    // Ajustar baseado no objetivo
+    const goalAdjustments = {
+      muscle_gain: 1.1, // +10% para ganho muscular
+      weight_loss: 0.85, // -15% para perda de peso
+      maintenance: 1.0, // manter peso
+      performance: 1.15 // +15% para performance
+    };
+    
+    dailyCalories = dailyCalories * goalAdjustments[goal];
+    
+    // Distribuição de macronutrientes
+    let proteinRatio, carbRatio, fatRatio;
+    
+    if (goal === 'muscle_gain') {
+      proteinRatio = 0.25; // 25% proteína
+      carbRatio = 0.55; // 55% carboidratos
+      fatRatio = 0.20; // 20% gordura
+    } else if (goal === 'weight_loss') {
+      proteinRatio = 0.30; // 30% proteína
+      carbRatio = 0.45; // 45% carboidratos
+      fatRatio = 0.25; // 25% gordura
+    } else {
+      proteinRatio = 0.25;
+      carbRatio = 0.50;
+      fatRatio = 0.25;
+    }
+    
+    return {
+      dailyCalories: Math.round(dailyCalories),
+      protein: Math.round((dailyCalories * proteinRatio) / 4), // 4 cal/g proteína
+      carbs: Math.round((dailyCalories * carbRatio) / 4), // 4 cal/g carboidrato
+      fat: Math.round((dailyCalories * fatRatio) / 9), // 9 cal/g gordura
+      trainingDays,
+      goal
+    };
+  };
+
+  // Gerar sugestões personalizadas
+  const generatePersonalizedSuggestions = () => {
+    const nutrition = calculatePersonalizedNutrition();
+    const suggestions = [];
+    
+    if (nutrition.goal === 'muscle_gain') {
+      suggestions.push({
+        meal: 'Café da Manhã',
+        time: '07:00',
+        items: [
+          { name: 'Aveia em flocos grossos', weight: 80, reason: 'Carboidrato complexo para energia' },
+          { name: 'Ovos', weight: 100, reason: 'Proteína de alto valor biológico' },
+          { name: 'Banana', weight: 120, reason: 'Potássio para recuperação muscular' }
+        ]
+      });
+      
+      suggestions.push({
+        meal: 'Pré-Treino',
+        time: '16:00',
+        items: [
+          { name: 'Batata Doce', weight: 150, reason: 'Carboidrato de baixo IG' },
+          { name: 'Peito Frango', weight: 120, reason: 'Proteína magra' },
+          { name: 'Quinoa Grao Mix', weight: 60, reason: 'Proteína completa' }
+        ]
+      });
+      
+      suggestions.push({
+        meal: 'Pós-Treino',
+        time: '18:30',
+        items: [
+          { name: 'Contra-Filé', weight: 150, reason: 'Proteína rica em creatina' },
+          { name: 'Arroz Branco', weight: 100, reason: 'Carboidrato para recuperação' },
+          { name: 'Brocolis', weight: 100, reason: 'Antioxidantes e vitaminas' }
+        ]
+      });
+    }
+    
+    return { nutrition, suggestions };
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -2034,6 +2145,16 @@ const GracieDietApp = () => {
             >
               <BarChart3 size={20} /> Relatórios
             </button>
+            <button
+              onClick={() => setActiveTab('profile')}
+              className={`px-6 py-4 flex items-center gap-2 ${
+                activeTab === 'profile' 
+                  ? 'border-b-2 border-blue-600 text-blue-600 bg-blue-50' 
+                  : 'text-gray-600 hover:text-gray-800'
+              }`}
+            >
+              <User size={20} /> Perfil
+            </button>
           </div>
         </div>
 
@@ -2044,6 +2165,7 @@ const GracieDietApp = () => {
         {activeTab === 'recipes' && renderRecipes()}
         {activeTab === 'history' && renderHistory()}
         {activeTab === 'reports' && renderReports()}
+        {activeTab === 'profile' && renderProfile()}
       </div>
     </div>
   );
