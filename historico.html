@@ -47,6 +47,9 @@
                 <a href="historico.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 border-b-2 border-blue-600 text-blue-600 bg-blue-50 text-sm sm:text-base whitespace-nowrap">
                     📅 Histórico
                 </a>
+                <a href="sincronizacao.html" class="px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base whitespace-nowrap">
+                    🔄 Sincronização
+                </a>
             </div>
         </div>
 
@@ -381,10 +384,19 @@
                     const horario = refeicao.horario || 'Horário não registrado';
                     
                     html += `
-                        <div class="bg-gray-50 p-3 rounded">
+                        <div class="bg-gray-50 p-3 rounded relative group">
                             <div class="flex justify-between items-start mb-2">
                                 <span class="font-medium">🕐 ${horario}</span>
-                                <span class="text-sm text-gray-600">${Math.round(refeicao.calorias || 0)} cal</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">${Math.round(refeicao.calorias || 0)} cal</span>
+                                    <button 
+                                        onclick="excluirRefeicao('${refeicao.id}', '${data}', '${horario}')"
+                                        class="text-red-500 hover:text-red-700 text-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                        title="Excluir refeição"
+                                    >
+                                        🗑️
+                                    </button>
+                                </div>
                             </div>
                             <div class="text-sm text-gray-600 mb-2">
                                 <span class="mr-3">Proteína: ${Math.round(refeicao.proteina || 0)}g</span>
@@ -430,6 +442,126 @@
             document.getElementById('dias-ativos').textContent = diasUnicos.size;
             document.getElementById('total-refeicoes-geral').textContent = dadosNutricionais.length;
         }
+
+        // Variáveis para exclusão de refeições
+        let refeicaoParaExcluir = null;
+
+        // Excluir refeição
+        function excluirRefeicao(id, data, horario) {
+            refeicaoParaExcluir = { id, data, horario };
+            
+            // Preencher modal de confirmação
+            document.getElementById('data-refeicao-excluir').textContent = data;
+            document.getElementById('horario-refeicao-excluir').textContent = horario;
+            
+            // Mostrar modal
+            document.getElementById('modal-exclusao-refeicao').classList.remove('hidden');
+        }
+
+        // Confirmar exclusão de refeição
+        function confirmarExclusaoRefeicao() {
+            if (!refeicaoParaExcluir) return;
+
+            // Remover refeição do array
+            const index = dadosNutricionais.findIndex(r => r.id === refeicaoParaExcluir.id);
+            if (index !== -1) {
+                dadosNutricionais.splice(index, 1);
+                
+                // Salvar no localStorage
+                const dadosSalvos = {};
+                dadosNutricionais.forEach(refeicao => {
+                    if (!dadosSalvos[refeicao.data]) {
+                        dadosSalvos[refeicao.data] = [];
+                    }
+                    dadosSalvos[refeicao.data].push(refeicao);
+                });
+                localStorage.setItem('dadosNutricionais', JSON.stringify(dadosSalvos));
+                
+                // Fechar modal
+                fecharModalExclusaoRefeicao();
+                
+                // Mostrar notificação
+                mostrarNotificacao('🗑️ Refeição excluída com sucesso!', 'success');
+                
+                // Atualizar interface
+                renderizarCalendario();
+                atualizarResumo();
+                mostrarDetalhesRefeicoes();
+                atualizarEstatisticas();
+            }
+        }
+
+        // Fechar modal de exclusão
+        function fecharModalExclusaoRefeicao() {
+            document.getElementById('modal-exclusao-refeicao').classList.add('hidden');
+            refeicaoParaExcluir = null;
+        }
+
+        // Mostrar notificação
+        function mostrarNotificacao(mensagem, tipo = 'info') {
+            // Remover notificação anterior se existir
+            const notificacaoAnterior = document.getElementById('notificacao');
+            if (notificacaoAnterior) {
+                notificacaoAnterior.remove();
+            }
+            
+            // Criar nova notificação
+            const notificacao = document.createElement('div');
+            notificacao.id = 'notificacao';
+            notificacao.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 max-w-sm ${
+                tipo === 'success' ? 'bg-green-500 text-white' : 
+                tipo === 'error' ? 'bg-red-500 text-white' : 
+                'bg-blue-500 text-white'
+            }`;
+            notificacao.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">${tipo === 'success' ? '✅' : tipo === 'error' ? '❌' : 'ℹ️'}</span>
+                    <span>${mensagem}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notificacao);
+            
+            // Remover após 3 segundos
+            setTimeout(() => {
+                if (notificacao.parentNode) {
+                    notificacao.remove();
+                }
+            }, 3000);
+        }
     </script>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="modal-exclusao-refeicao" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-semibold mb-4 text-red-600">🗑️ Excluir Refeição</h3>
+            
+            <div class="mb-6">
+                <p class="text-gray-700 mb-2">
+                    Tem certeza que deseja excluir a refeição?
+                </p>
+                <div class="bg-gray-50 p-3 rounded border">
+                    <p class="text-sm text-gray-600">
+                        <strong>Data:</strong> <span id="data-refeicao-excluir" class="font-medium"></span>
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <strong>Horário:</strong> <span id="horario-refeicao-excluir" class="font-medium"></span>
+                    </p>
+                </div>
+                <p class="text-sm text-red-600 mt-3">
+                    ⚠️ Esta ação não pode ser desfeita!
+                </p>
+            </div>
+            
+            <div class="flex gap-3">
+                <button onclick="confirmarExclusaoRefeicao()" class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 text-sm">
+                    🗑️ Excluir
+                </button>
+                <button onclick="fecharModalExclusaoRefeicao()" class="flex-1 bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 text-sm">
+                    ❌ Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
