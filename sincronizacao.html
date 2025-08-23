@@ -102,16 +102,40 @@
                 </div>
             </div>
 
-            <!-- Sincronização Automática -->
+            <!-- Sincronização na Nuvem -->
             <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
-                <h3 class="text-lg sm:text-xl font-semibold mb-4">🔄 Sincronização Automática</h3>
-                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-2">🚧 Em Desenvolvimento:</h4>
-                    <p class="text-gray-700 text-sm">Sincronização automática via nuvem será implementada em breve.</p>
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">☁️ Sincronização na Nuvem</h3>
+                <p class="text-gray-600 mb-4">Sincronize seus dados automaticamente entre computador e celular usando a nuvem.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                    <button onclick="salvarNaNuvem()" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg text-center">
+                        <div class="text-2xl mb-2">☁️</div>
+                        <div class="font-semibold">Salvar na Nuvem</div>
+                        <div class="text-sm opacity-90">Enviar dados para a nuvem</div>
+                    </button>
+                    
+                    <button onclick="carregarDaNuvem()" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg text-center">
+                        <div class="text-2xl mb-2">⬇️</div>
+                        <div class="font-semibold">Carregar da Nuvem</div>
+                        <div class="text-sm opacity-90">Baixar dados da nuvem</div>
+                    </button>
+                    
+                    <button onclick="sincronizacaoAutomatica()" class="bg-purple-500 hover:bg-purple-600 text-white p-4 rounded-lg text-center">
+                        <div class="text-2xl mb-2">🔄</div>
+                        <div class="font-semibold">Sincronização Automática</div>
+                        <div class="text-sm opacity-90">Sincronizar automaticamente</div>
+                    </button>
                 </div>
-                <button onclick="sincronizarNuvem()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors" disabled>
-                    🔄 Sincronizar com Nuvem (Em breve)
-                </button>
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-blue-800 mb-2">ℹ️ Como funciona:</h4>
+                    <ul class="text-blue-700 text-sm space-y-1">
+                        <li>• <strong>Salvar na Nuvem:</strong> Envia seus dados para a nuvem</li>
+                        <li>• <strong>Carregar da Nuvem:</strong> Baixa dados da nuvem para este dispositivo</li>
+                        <li>• <strong>Sincronização Automática:</strong> Sincroniza automaticamente quando há conexão</li>
+                        <li>• <strong>Modo Offline:</strong> Funciona mesmo sem internet</li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Estatísticas -->
@@ -139,6 +163,9 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
     <script>
         let syncManager;
 
@@ -176,6 +203,36 @@
         // Sincronizar com nuvem (simulado)
         function sincronizarNuvem() {
             syncManager.syncWithGoogleDrive();
+        }
+
+        // Funções para sincronização na nuvem
+        async function salvarNaNuvem() {
+            const dados = localStorage.getItem('dadosNutricionais');
+            if (dados) {
+                const success = await window.cloudSync.saveToCloud(JSON.parse(dados));
+                if (success) {
+                    syncManager.showNotification('☁️ Dados salvos na nuvem com sucesso!', 'success');
+                }
+            } else {
+                syncManager.showNotification('❌ Nenhum dado para salvar', 'error');
+            }
+        }
+
+        async function carregarDaNuvem() {
+            const dados = await window.cloudSync.loadFromCloud();
+            if (dados) {
+                localStorage.setItem('dadosNutricionais', JSON.stringify(dados));
+                syncManager.showNotification('☁️ Dados carregados da nuvem!', 'success');
+                // Recarregar a página para atualizar os dados
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        }
+
+        async function sincronizacaoAutomatica() {
+            await window.cloudSync.autoSync();
+            syncManager.showNotification('🔄 Sincronização automática concluída!', 'success');
         }
 
         // Atualizar status
