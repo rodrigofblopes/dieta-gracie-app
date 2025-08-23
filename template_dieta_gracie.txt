@@ -1,0 +1,153 @@
+🥋 DIETA GRACIE - TEMPLATE PARA HTML 🥋
+
+=== CABEÇALHO ===
+TÍTULO: Dieta Gracie para Lutadores
+SUBTÍTULO: Alimentação baseada nos princípios da família Gracie
+DESCRIÇÃO: Sistema alimentar desenvolvido pelos pioneiros do Jiu-Jitsu Brasileiro
+
+=== PRINCÍPIOS FUNDAMENTAIS ===
+PRINCÍPIO 1: Combinação de Alimentos
+- Descrição: Evitar misturas que causam fermentação
+- Exemplos: Não misturar proteínas com carboidratos complexos
+
+PRINCÍPIO 2: Alimentos Alcalinos
+- Descrição: Priorizar frutas, verduras e proteínas magras
+- Benefícios: Mantém o pH do corpo equilibrado
+
+PRINCÍPIO 3: Horários Regulares
+- Descrição: Comer em horários fixos
+- Horários sugeridos: 7h, 12h, 18h
+
+PRINCÍPIO 4: Mastigação
+- Descrição: Mastigar bem os alimentos
+- Benefícios: Melhora digestão e absorção
+
+=== ALIMENTOS PERMITIDOS ===
+PROTEÍNAS:
+- Frango (sem pele)
+- Peixe (salmão, atum, tilápia)
+- Ovos
+- Queijo branco
+
+CARBOIDRATOS:
+- Arroz integral
+- Batata doce
+- Aveia
+- Quinoa
+
+GORDURAS:
+- Azeite de oliva
+- Abacate
+- Oleaginosas (amêndoas, castanhas)
+
+FRUTAS:
+- Banana
+- Maçã
+- Pera
+- Mamão
+
+VERDURAS:
+- Alface
+- Espinafre
+- Couve
+- Brócolis
+
+=== ALIMENTOS A EVITAR ===
+❌ Açúcares refinados
+❌ Farinhas brancas
+❌ Frituras
+❌ Refrigerantes
+❌ Alimentos processados
+
+=== COMBINAÇÕES ADEQUADAS ===
+COMBINAÇÃO 1: Proteína + Verdura
+- Exemplo: Frango + Salada
+- Horário: Almoço
+
+COMBINAÇÃO 2: Carboidrato + Verdura
+- Exemplo: Arroz integral + Brócolis
+- Horário: Jantar
+
+COMBINAÇÃO 3: Fruta + Oleaginosas
+- Exemplo: Banana + Amêndoas
+- Horário: Lanche
+
+=== RECEITAS ===
+RECEITA 1:
+Nome: Frango Grelhado com Salada
+Categoria: Almoço
+Tempo: 20 min
+Ingredientes:
+- 200g peito de frango
+- Alface, tomate, cebola
+- Azeite, sal, limão
+Instruções:
+1. Grelhe o frango
+2. Monte a salada
+3. Tempere com azeite e limão
+
+RECEITA 2:
+Nome: Vitamina de Banana com Aveia
+Categoria: Café da manhã
+Tempo: 5 min
+Ingredientes:
+- 1 banana
+- 2 colheres de aveia
+- 1 copo de água
+Instruções:
+1. Bata todos os ingredientes
+2. Sirva imediatamente
+
+=== HORÁRIOS DE REFEIÇÃO ===
+CAFÉ DA MANHÃ: 7h00
+- Carboidrato + Fruta
+- Exemplo: Aveia + Banana
+
+LANCHE DA MANHÃ: 10h00
+- Fruta + Oleaginosas
+- Exemplo: Maçã + Castanhas
+
+ALMOÇO: 12h00
+- Proteína + Verdura
+- Exemplo: Frango + Salada
+
+LANCHE DA TARDE: 15h00
+- Fruta
+- Exemplo: Pera
+
+JANTAR: 18h00
+- Carboidrato + Verdura
+- Exemplo: Arroz integral + Brócolis
+
+=== DICAS PARA LUTADORES ===
+DICA 1: Coma 2 horas antes do treino
+DICA 2: Hidrate-se bem
+DICA 3: Evite comer muito antes de dormir
+DICA 4: Mastigue bem os alimentos
+
+=== BENEFÍCIOS ===
+- Melhora performance no treino
+- Aumenta energia
+- Melhora recuperação muscular
+- Mantém peso ideal
+- Melhora digestão
+
+=== HASHTAGS ===
+#dietagracie #jiujitsu #lutador #alimentaçãosaudável #bjj #fitness #nutrição #gracie #jiujitsubrasileiro
+
+=== ESTRUTURA HTML DESEJADA ===
+- Header com título e descrição
+- Seção de princípios fundamentais
+- Cards de receitas com fotos
+- Seção de alimentos permitidos/evitar
+- Horários de refeição
+- Dicas para lutadores
+- Benefícios
+- Hashtags para Instagram
+
+=== INSTRUÇÕES ===
+1. Substitua os textos acima com o conteúdo real do PDF
+2. Mantenha a estrutura com === SEÇÃO ===
+3. Adicione mais receitas seguindo o modelo
+4. Inclua fotos e dicas específicas
+5. Personalize para o público lutador

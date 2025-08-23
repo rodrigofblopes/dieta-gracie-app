@@ -1,0 +1,175 @@
+[
+  {
+    "id": "2024-01-22-12-00-001",
+    "date": "2024-01-22",
+    "time": "12:00",
+    "items": [
+      {
+        "ingredient": {
+          "id": 1,
+          "name": "Peito Frango",
+          "weight": 0.692,
+          "price": 12.24,
+          "pricePerKg": 17.69,
+          "unit": "g",
+          "location": "Araujo",
+          "calories": 165,
+          "protein": 31,
+          "carbs": 0,
+          "fat": 3.6,
+          "fiber": 0,
+          "category": "Proteína",
+          "benefits": "Rica em proteína magra, ideal para ganho muscular"
+        },
+        "quantity": 150
+      },
+      {
+        "ingredient": {
+          "id": 17,
+          "name": "Batata Doce",
+          "weight": 2000,
+          "price": 8.01,
+          "pricePerKg": 3.99,
+          "unit": "g",
+          "location": "Frutaria",
+          "calories": 86,
+          "protein": 2,
+          "carbs": 20,
+          "fat": 0.1,
+          "fiber": 3,
+          "category": "Carboidrato",
+          "benefits": "Carboidrato complexo, vitamina A, fibras"
+        },
+        "quantity": 200
+      },
+      {
+        "ingredient": {
+          "id": 21,
+          "name": "Brocolis",
+          "weight": 0.45,
+          "price": 13.5,
+          "pricePerKg": 29.99,
+          "unit": "g",
+          "location": "Frutaria",
+          "calories": 34,
+          "protein": 2.8,
+          "carbs": 7,
+          "fat": 0.4,
+          "fiber": 2.6,
+          "category": "Vegetal",
+          "benefits": "Sulforafano, vitamina C, fibras"
+        },
+        "quantity": 100
+      }
+    ]
+  },
+  {
+    "id": "2024-01-22-15-30-002",
+    "date": "2024-01-22",
+    "time": "15:30",
+    "items": [
+      {
+        "ingredient": {
+          "id": 12,
+          "name": "Castanha do Pará",
+          "weight": 88,
+          "price": 8.8,
+          "pricePerKg": 100,
+          "unit": "g",
+          "location": "Mercado Central",
+          "calories": 656,
+          "protein": 14,
+          "carbs": 12,
+          "fat": 66,
+          "fiber": 7.5,
+          "category": "Gordura",
+          "benefits": "Selênio, antioxidantes, saúde hormonal"
+        },
+        "quantity": 30
+      },
+      {
+        "ingredient": {
+          "id": 13,
+          "name": "Amendoim Cru",
+          "weight": 200,
+          "price": 4,
+          "pricePerKg": 20,
+          "unit": "g",
+          "location": "QualiErvas",
+          "calories": 567,
+          "protein": 25,
+          "carbs": 16,
+          "fat": 49,
+          "fiber": 8.5,
+          "category": "Gordura",
+          "benefits": "Proteína vegetal, energia sustentada"
+        },
+        "quantity": 25
+      }
+    ]
+  },
+  {
+    "id": "2024-01-22-18-00-003",
+    "date": "2024-01-22",
+    "time": "18:00",
+    "items": [
+      {
+        "ingredient": {
+          "id": 3,
+          "name": "Contra-Filé",
+          "weight": 0.606,
+          "price": 31.02,
+          "pricePerKg": 51.19,
+          "unit": "g",
+          "location": "Araujo",
+          "calories": 250,
+          "protein": 26,
+          "carbs": 0,
+          "fat": 15,
+          "fiber": 0,
+          "category": "Proteína",
+          "benefits": "Proteína de alta qualidade, rica em creatina"
+        },
+        "quantity": 120
+      },
+      {
+        "ingredient": {
+          "id": 4,
+          "name": "Quinoa Grao Mix",
+          "weight": 500,
+          "price": 37,
+          "pricePerKg": 74,
+          "unit": "g",
+          "location": "QualiErvas",
+          "calories": 368,
+          "protein": 14,
+          "carbs": 64,
+          "fat": 6,
+          "fiber": 7,
+          "category": "Carboidrato",
+          "benefits": "Proteína completa, rica em fibras e minerais"
+        },
+        "quantity": 80
+      },
+      {
+        "ingredient": {
+          "id": 22,
+          "name": "Couve Flor",
+          "weight": 0.67,
+          "price": 10.04,
+          "pricePerKg": 14.99,
+          "unit": "g",
+          "location": "Frutaria",
+          "calories": 25,
+          "protein": 1.9,
+          "carbs": 5,
+          "fat": 0.3,
+          "fiber": 2,
+          "category": "Vegetal",
+          "benefits": "Vitamina C, antioxidantes, baixas calorias"
+        },
+        "quantity": 150
+      }
+    ]
+  }
+]

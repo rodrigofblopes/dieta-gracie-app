@@ -1,0 +1,153 @@
+{
+  "registros": {
+    "2025-08-23": [
+      {
+        "alimento": "quinoa",
+        "peso": 100.0,
+        "categoria": "Carboidrato",
+        "proteina": 4.4,
+        "carboidrato": 21.3,
+        "gordura": 1.9,
+        "calorias": 120.0,
+        "fibra": 2.8,
+        "beneficios": [
+          "🌾 Proteína completa vegetal",
+          "🔄 Fibra para saciedade",
+          "💪 Magnésio para relaxamento muscular",
+          "⚡ Ferro para energia",
+          "🧠 Vitaminas B para cognição"
+        ],
+        "hora": "03:14"
+      },
+      {
+        "alimento": "batata doce",
+        "peso": 120.0,
+        "categoria": "Carboidrato",
+        "proteina": 1.9,
+        "carboidrato": 24.1,
+        "gordura": 0.1,
+        "calorias": 103.0,
+        "fibra": 3.6,
+        "beneficios": [
+          "🍠 Carboidrato complexo de baixo IG",
+          "👁️ Beta-caroteno para visão",
+          "💪 Vitamina C para imunidade",
+          "🔄 Fibra para saciedade",
+          "⚡ Potássio para contração muscular"
+        ],
+        "hora": "03:15"
+      },
+      {
+        "alimento": "brocolis",
+        "peso": 100.0,
+        "categoria": "Vegetal",
+        "proteina": 2.8,
+        "carboidrato": 6.6,
+        "gordura": 0.4,
+        "calorias": 34.0,
+        "fibra": 2.6,
+        "beneficios": [
+          "🥦 Sulforafano para detoxificação",
+          "💪 Vitamina C para imunidade",
+          "🦴 Cálcio para ossos",
+          "👁️ Luteína para visão",
+          "🔄 Fibra para saúde intestinal"
+        ],
+        "hora": "03:15"
+      },
+      {
+        "alimento": "contra file",
+        "peso": 150.0,
+        "categoria": "Proteína",
+        "proteina": 39.0,
+        "carboidrato": 0.0,
+        "gordura": 22.5,
+        "calorias": 375.0,
+        "fibra": 0.0,
+        "beneficios": [
+          "🥩 Proteína de alto valor biológico",
+          "💪 Rico em creatina natural",
+          "🩸 Excelente fonte de ferro heme",
+          "🧠 Contém vitamina B12 para cognição",
+          "💪 Zinco para produção de testosterona"
+        ],
+        "hora": "03:15"
+      }
+    ],
+    "2025-08-22": [
+      {
+        "alimento": "quinoa",
+        "peso": 100.0,
+        "categoria": "Carboidrato",
+        "proteina": 4.4,
+        "carboidrato": 21.3,
+        "gordura": 1.9,
+        "calorias": 120.0,
+        "fibra": 2.8,
+        "beneficios": [
+          "🌾 Proteína completa vegetal",
+          "🔄 Fibra para saciedade",
+          "💪 Magnésio para relaxamento muscular",
+          "⚡ Ferro para energia",
+          "🧠 Vitaminas B para cognição"
+        ],
+        "hora": "23:00"
+      },
+      {
+        "alimento": "contra file",
+        "peso": 150.0,
+        "categoria": "Proteína",
+        "proteina": 39.0,
+        "carboidrato": 0.0,
+        "gordura": 22.5,
+        "calorias": 375.0,
+        "fibra": 0.0,
+        "beneficios": [
+          "🥩 Proteína de alto valor biológico",
+          "💪 Rico em creatina natural",
+          "🩸 Excelente fonte de ferro heme",
+          "🧠 Contém vitamina B12 para cognição",
+          "💪 Zinco para produção de testosterona"
+        ],
+        "hora": "23:00"
+      },
+      {
+        "alimento": "batata doce",
+        "peso": 150.0,
+        "categoria": "Carboidrato",
+        "proteina": 2.4,
+        "carboidrato": 30.2,
+        "gordura": 0.2,
+        "calorias": 129.0,
+        "fibra": 4.5,
+        "beneficios": [
+          "🍠 Carboidrato complexo de baixo IG",
+          "👁️ Beta-caroteno para visão",
+          "💪 Vitamina C para imunidade",
+          "🔄 Fibra para saciedade",
+          "⚡ Potássio para contração muscular"
+        ],
+        "hora": "23:00"
+      },
+      {
+        "alimento": "brocolis",
+        "peso": 100.0,
+        "categoria": "Vegetal",
+        "proteina": 2.8,
+        "carboidrato": 6.6,
+        "gordura": 0.4,
+        "calorias": 34.0,
+        "fibra": 2.6,
+        "beneficios": [
+          "🥦 Sulforafano para detoxificação",
+          "💪 Vitamina C para imunidade",
+          "🦴 Cálcio para ossos",
+          "👁️ Luteína para visão",
+          "🔄 Fibra para saúde intestinal"
+        ],
+        "hora": "23:00"
+      }
+    ]
+  },
+  "totais_diarios": {}
+}

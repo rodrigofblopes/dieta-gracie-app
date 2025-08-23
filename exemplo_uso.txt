@@ -1,0 +1,166 @@
+🥋 EXEMPLO DE USO - APP NUTRICIONAL SIMPLES (VERSÃO MOBILE)
+
+📱 DESIGN MOBILE-FRIENDLY:
+- Tamanho otimizado: 400x700px
+- Scroll vertical para navegação
+- Botões grandes e touch-friendly
+- Cores modernas e organizadas
+- Layout em cards visuais
+
+📝 COMO REGISTRAR ALIMENTOS:
+
+1. ABRA O APP:
+   - Duplo clique em "iniciar_app_tkinter.bat"
+   - Ou execute: py app_nutricional_tkinter.py
+
+2. SELECIONE DATA E HORA:
+   - 📅 Data: Digite "2024-01-15" (formato YYYY-MM-DD)
+   - 🕐 Hora: Digite "12:30" (formato HH:MM)
+
+3. REGISTRE SEUS ALIMENTOS:
+   - Campo "Alimento": Digite "frango"
+   - Campo "Peso": Digite "200"
+   - Clique em "Registrar"
+
+4. VEJA OS RESULTADOS:
+   - Resumo do dia atualizado automaticamente
+   - Lista de alimentos consumidos
+   - Totais de nutrientes com cores
+   - Métricas visuais organizadas
+
+🍽️ EXEMPLOS DE ALIMENTOS PARA TESTAR:
+
+PROTEÍNAS:
+- frango (200g) = 46.2g proteína, 220 kcal
+- ovos (100g) = 12.5g proteína, 155 kcal
+- atum (150g) = 39g proteína, 174 kcal
+
+CARBOIDRATOS:
+- batata doce (300g) = 60.3g carboidrato, 258 kcal
+- arroz (100g) = 28g carboidrato, 130 kcal
+- quinoa (200g) = 42.6g carboidrato, 240 kcal
+
+VEGETAIS:
+- brocolis (200g) = 5.6g proteína, 68 kcal
+- cenoura (150g) = 1.35g carboidrato, 61.5 kcal
+
+GORDURAS:
+- castanha para (30g) = 4.29g proteína, 196.8 kcal
+- amendoim (50g) = 12.9g proteína, 283.5 kcal
+
+FRUTAS:
+- banana (120g) = 1.32g carboidrato, 106.8 kcal
+
+📊 EXEMPLO DE DIA COMPLETO:
+
+CAFÉ DA MANHÃ (07:00):
+- aveia (50g) = 6.75g proteína, 194.5 kcal
+- banana (100g) = 1.1g carboidrato, 89 kcal
+
+ALMOÇO (12:30):
+- frango (200g) = 46.2g proteína, 220 kcal
+- arroz (100g) = 28g carboidrato, 130 kcal
+- brocolis (150g) = 4.2g proteína, 51 kcal
+
+LANCHE (16:00):
+- ovos (100g) = 12.5g proteína, 155 kcal
+- castanha para (20g) = 2.86g proteína, 131.2 kcal
+
+JANTAR (19:30):
+- atum (150g) = 39g proteína, 174 kcal
+- batata doce (200g) = 40.2g carboidrato, 172 kcal
+
+TOTAIS DO DIA:
+- Calorias: 1.323 kcal
+- Proteínas: 112.8g
+- Carboidratos: 97.3g
+- Gorduras: ~50g
+
+🎨 MÉTRICAS COLORIDAS:
+
+O app mostra nutrientes com cores diferentes:
+- 🔥 Calorias: Vermelho (#e74c3c)
+- 🥩 Proteínas: Verde (#27ae60)
+- 🌾 Carboidratos: Laranja (#f39c12)
+- 🥑 Gorduras: Roxo (#8e44ad)
+- 🔄 Fibras: Azul (#3498db)
+
+💡 DICAS IMPORTANTES:
+
+1. USE NOMES SIMPLES:
+   ✅ "frango" (funciona)
+   ❌ "peito de frango" (não funciona)
+
+2. PESE EM GRAMAS:
+   ✅ "200" (funciona)
+   ❌ "200g" (funciona, mas só números é melhor)
+
+3. FORMATO DE DATA E HORA:
+   ✅ Data: "2024-01-15" (YYYY-MM-DD)
+   ✅ Hora: "14:30" (HH:MM)
+   ❌ Data: "15/01/2024" (formato errado)
+   ❌ Hora: "2:30" (sem zero à esquerda)
+
+4. REGISTRE IMEDIATAMENTE:
+   - Após pesar o alimento
+   - Antes de comer
+   - Para maior precisão
+
+5. CONSULTE A LISTA:
+   - Clique em "Ver Alimentos"
+   - Veja todas as opções disponíveis
+   - Use os nomes exatos da lista
+
+6. NAVEGUE ENTRE DATAS:
+   - Altere a data para ver resumos de dias diferentes
+   - O resumo atualiza automaticamente
+   - Veja seu histórico completo
+
+🎯 BENEFÍCIOS MOSTRADOS:
+
+Cada alimento mostra 5 benefícios específicos:
+- 🥩 Construção muscular
+- 💪 Imunidade
+- 🧠 Cognição
+- ⚡ Energia
+- 🦴 Saúde óssea
+
+📈 ACOMPANHAMENTO:
+
+O app salva automaticamente:
+- Data e hora de cada refeição
+- Peso exato consumido
+- Nutrientes calculados
+- Histórico completo por data
+
+💾 BACKUP:
+
+Os dados ficam em "registros_nutricionais.json"
+- Copie este arquivo para backup
+- Cole em local seguro
+- Substitua para restaurar dados
+
+📱 FUNCIONALIDADES MOBILE:
+
+🎨 Design Responsivo:
+- Tamanho adaptável para telas pequenas
+- Scroll suave para navegação
+- Botões touch-friendly
+- Layout em cards organizados
+
+📅 Controle de Data/Hora:
+- Data personalizada para qualquer dia
+- Hora específica para cada refeição
+- Navegação temporal completa
+- Atualização automática do resumo
+
+🚀 PRONTO PARA USAR!
+
+Agora você pode:
+1. Registrar seus alimentos com data e hora
+2. Acompanhar nutrientes com métricas coloridas
+3. Ver benefícios específicos
+4. Manter histórico completo por data
+5. Usar interface mobile-friendly
+
+🥋 Bons treinos e boa nutrição!
