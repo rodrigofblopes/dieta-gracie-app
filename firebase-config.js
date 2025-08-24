@@ -32,6 +32,11 @@ class CloudSync {
                 this.showNotification('☁️ Dados sincronizados automaticamente!', 'success');
             }
         });
+
+        // Iniciar sincronização em tempo real após 5 segundos
+        setTimeout(() => {
+            this.startRealTimeSync();
+        }, 5000);
     }
 
     // Gerar ID único do usuário (fixo para sincronização)
@@ -150,6 +155,45 @@ class CloudSync {
         }
     }
 
+    // Sincronização em tempo real
+    async realTimeSync() {
+        if (!this.isOnline) return;
+        
+        try {
+            // Salvar dados locais na nuvem
+            const localData = localStorage.getItem('dadosNutricionais');
+            if (localData) {
+                await this.saveToCloud(JSON.parse(localData));
+            }
+            
+            // Carregar dados da nuvem
+            await this.autoLoad();
+            
+            console.log('✅ Sincronização em tempo real concluída');
+        } catch (error) {
+            console.error('❌ Erro na sincronização em tempo real:', error);
+        }
+    }
+
+    // Iniciar sincronização em tempo real
+    startRealTimeSync() {
+        // Sincronizar a cada 10 segundos
+        this.realTimeInterval = setInterval(() => {
+            this.realTimeSync();
+        }, 10000);
+        
+        console.log('🚀 Sincronização em tempo real iniciada');
+    }
+
+    // Parar sincronização em tempo real
+    stopRealTimeSync() {
+        if (this.realTimeInterval) {
+            clearInterval(this.realTimeInterval);
+            this.realTimeInterval = null;
+            console.log('⏹️ Sincronização em tempo real parada');
+        }
+    }
+
     // Sincronização automática quando dados mudam
     setupAutoSync() {
         // Monitorar mudanças no localStorage
@@ -165,6 +209,27 @@ class CloudSync {
                 }, 1000); // Aguardar 1 segundo para evitar muitas sincronizações
             }
         };
+
+        // Sincronização automática a cada 30 segundos
+        setInterval(() => {
+            if (this.isOnline) {
+                this.autoSync();
+            }
+        }, 30000);
+
+        // Sincronização quando a página ganha foco
+        window.addEventListener('focus', () => {
+            if (this.isOnline) {
+                console.log('🔄 Página ganhou foco, sincronizando...');
+                this.autoLoad();
+            }
+        });
+
+        // Sincronização quando volta online
+        window.addEventListener('online', () => {
+            console.log('🔄 Conexão restaurada, sincronizando...');
+            this.autoSync();
+        });
     }
 
     // Forçar sincronização manual
@@ -206,8 +271,8 @@ class CloudSync {
                     const localObj = JSON.parse(localData);
                     const cloudObj = cloudData;
                     
-                    // Mesclar dados (manter ambos se houver conflitos)
-                    const dadosMesclados = { ...localObj, ...cloudObj };
+                    // Mesclar dados de forma inteligente
+                    const dadosMesclados = this.mergeData(localObj, cloudObj);
                     localStorage.setItem('dadosNutricionais', JSON.stringify(dadosMesclados));
                 } else {
                     localStorage.setItem('dadosNutricionais', JSON.stringify(cloudData));
@@ -216,6 +281,39 @@ class CloudSync {
             }
         }
         return false;
+    }
+
+    // Mesclar dados de forma inteligente
+    mergeData(localData, cloudData) {
+        const merged = { ...localData };
+        
+        // Para cada data, mesclar as refeições
+        Object.keys(cloudData).forEach(data => {
+            if (!merged[data]) {
+                merged[data] = cloudData[data];
+            } else {
+                // Mesclar refeições da mesma data
+                const localRefeicoes = merged[data];
+                const cloudRefeicoes = cloudData[data];
+                
+                // Criar mapa de refeições por ID para evitar duplicatas
+                const refeicoesMap = new Map();
+                
+                // Adicionar refeições locais
+                localRefeicoes.forEach(refeicao => {
+                    refeicoesMap.set(refeicao.id, refeicao);
+                });
+                
+                // Adicionar refeições da nuvem (sobrescrevem se mesmo ID)
+                cloudRefeicoes.forEach(refeicao => {
+                    refeicoesMap.set(refeicao.id, refeicao);
+                });
+                
+                merged[data] = Array.from(refeicoesMap.values());
+            }
+        });
+        
+        return merged;
     }
 
     // Mostrar notificação
