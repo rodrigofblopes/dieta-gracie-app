@@ -23,6 +23,9 @@ class CloudSync {
     constructor() {
         this.userId = this.getUserId();
         this.isOnline = navigator.onLine;
+        console.log('🚀 CloudSync inicializado para usuário:', this.userId);
+        console.log('🌐 Status online:', this.isOnline);
+        
         this.setupOfflineSupport();
         this.setupAutoSync();
         
@@ -30,6 +33,8 @@ class CloudSync {
         this.autoLoad().then(loaded => {
             if (loaded) {
                 this.showNotification('☁️ Dados sincronizados automaticamente!', 'success');
+            } else {
+                console.log('ℹ️ Nenhum dado carregado automaticamente');
             }
         });
 
@@ -73,6 +78,9 @@ class CloudSync {
                 return false;
             }
 
+            console.log('💾 Salvando dados na nuvem para usuário:', this.userId);
+            console.log('📊 Dados a serem salvos:', data);
+            
             await db.collection('users').doc(this.userId).set({
                 dadosNutricionais: data,
                 lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
@@ -83,10 +91,11 @@ class CloudSync {
                 }
             });
 
+            console.log('✅ Dados salvos com sucesso na nuvem');
             this.showNotification('☁️ Dados salvos na nuvem!', 'success');
             return true;
         } catch (error) {
-            console.error('Erro ao salvar na nuvem:', error);
+            console.error('❌ Erro ao salvar na nuvem:', error);
             this.saveForLaterSync(data);
             this.showNotification('❌ Erro ao salvar na nuvem - Salvando localmente', 'error');
             return false;
@@ -101,18 +110,21 @@ class CloudSync {
                 return null;
             }
 
+            console.log('🔍 Buscando dados para usuário:', this.userId);
             const doc = await db.collection('users').doc(this.userId).get();
             
             if (doc.exists) {
                 const data = doc.data();
+                console.log('📄 Documento encontrado:', data);
                 this.showNotification('☁️ Dados carregados da nuvem!', 'success');
                 return data.dadosNutricionais;
             } else {
+                console.log('📝 Documento não encontrado para usuário:', this.userId);
                 this.showNotification('📝 Nenhum dado encontrado na nuvem', 'info');
                 return null;
             }
         } catch (error) {
-            console.error('Erro ao carregar da nuvem:', error);
+            console.error('❌ Erro ao carregar da nuvem:', error);
             this.showNotification('❌ Erro ao carregar da nuvem', 'error');
             return null;
         }
@@ -263,8 +275,11 @@ class CloudSync {
     // Carregar dados automaticamente ao iniciar
     async autoLoad() {
         if (this.isOnline) {
+            console.log('🔄 Tentando carregar dados da nuvem...');
             const cloudData = await this.loadFromCloud();
             if (cloudData) {
+                console.log('✅ Dados encontrados na nuvem:', cloudData);
+                
                 // Verificar se os dados locais são mais recentes
                 const localData = localStorage.getItem('dadosNutricionais');
                 if (localData) {
@@ -274,11 +289,17 @@ class CloudSync {
                     // Mesclar dados de forma inteligente
                     const dadosMesclados = this.mergeData(localObj, cloudObj);
                     localStorage.setItem('dadosNutricionais', JSON.stringify(dadosMesclados));
+                    console.log('✅ Dados mesclados e salvos localmente');
                 } else {
                     localStorage.setItem('dadosNutricionais', JSON.stringify(cloudData));
+                    console.log('✅ Dados da nuvem salvos localmente');
                 }
                 return true;
+            } else {
+                console.log('❌ Nenhum dado encontrado na nuvem');
             }
+        } else {
+            console.log('❌ Offline - não é possível carregar da nuvem');
         }
         return false;
     }

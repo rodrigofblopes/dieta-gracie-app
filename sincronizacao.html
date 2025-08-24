@@ -159,6 +159,17 @@
                         <div class="text-sm opacity-90">Ver dados locais e na nuvem</div>
                     </button>
                 </div>
+
+                <!-- Botão de Sincronização Inicial -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-yellow-800 mb-2">🚀 Sincronização Inicial</h4>
+                    <p class="text-yellow-700 text-sm mb-3">Use este botão se os dados não aparecerem automaticamente no celular.</p>
+                    <button onclick="sincronizacaoInicial()" class="bg-yellow-600 hover:bg-yellow-700 text-white p-3 rounded-lg text-center w-full">
+                        <div class="text-xl mb-1">🔄</div>
+                        <div class="font-semibold">Sincronização Inicial</div>
+                        <div class="text-sm opacity-90">Forçar carregamento inicial</div>
+                    </button>
+                </div>
                 
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <h4 class="font-semibold text-blue-800 mb-2">ℹ️ Como funciona:</h4>
@@ -278,8 +289,19 @@ async function verificarStatus() {
     
     let mensagem = '📊 Status da Sincronização:\n';
     mensagem += `🌐 Online: ${status.isOnline ? 'Sim' : 'Não'}\n`;
+    mensagem += `🆔 Usuário: ${window.cloudSync.userId}\n`;
     mensagem += `💾 Dados locais: ${status.local ? 'Presentes' : 'Vazios'}\n`;
     mensagem += `☁️ Dados na nuvem: ${status.cloud ? 'Presentes' : 'Vazios'}`;
+    
+    if (status.local) {
+        const localKeys = Object.keys(status.local);
+        mensagem += `\n📅 Datas locais: ${localKeys.length > 0 ? localKeys.join(', ') : 'Nenhuma'}`;
+    }
+    
+    if (status.cloud) {
+        const cloudKeys = Object.keys(status.cloud);
+        mensagem += `\n☁️ Datas na nuvem: ${cloudKeys.length > 0 ? cloudKeys.join(', ') : 'Nenhuma'}`;
+    }
     
     alert(mensagem);
 }
@@ -292,6 +314,28 @@ async function iniciarTempoReal() {
 async function pararTempoReal() {
     window.cloudSync.stopRealTimeSync();
     syncManager.showNotification('⏹️ Sincronização em tempo real parada!', 'info');
+}
+
+async function sincronizacaoInicial() {
+    try {
+        syncManager.showNotification('🔄 Iniciando sincronização inicial...', 'info');
+        
+        // Forçar carregamento da nuvem
+        const loaded = await window.cloudSync.autoLoad();
+        
+        if (loaded) {
+            syncManager.showNotification('✅ Sincronização inicial concluída! Dados carregados.', 'success');
+            // Recarregar a página para mostrar os dados
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            syncManager.showNotification('❌ Nenhum dado encontrado na nuvem. Salve dados primeiro no computador.', 'error');
+        }
+    } catch (error) {
+        console.error('Erro na sincronização inicial:', error);
+        syncManager.showNotification('❌ Erro na sincronização inicial', 'error');
+    }
 }
 
         // Atualizar status
