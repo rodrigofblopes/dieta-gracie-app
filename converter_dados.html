@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Converter Dados - Dieta Gracie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-bold text-center mb-6">🔄 Converter Dados Antigos</h1>
+            
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h2 class="font-semibold text-blue-800 mb-2">ℹ️ Como funciona:</h2>
+                <p class="text-blue-700 text-sm">
+                    Esta página converte os dados antigos do arquivo registros_nutricionais.json para o novo formato 
+                    que funciona com a sincronização na nuvem.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dados Antigos -->
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-semibold mb-3">📄 Dados Antigos</h3>
+                    <div id="dados-antigos" class="text-sm text-gray-600">
+                        Carregando...
+                    </div>
+                </div>
+
+                <!-- Dados Convertidos -->
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="font-semibold mb-3">✅ Dados Convertidos</h3>
+                    <div id="dados-convertidos" class="text-sm text-gray-600">
+                        Aguardando conversão...
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button onclick="converterDados()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
+                    🔄 Converter Dados
+                </button>
+            </div>
+
+            <div id="resultado" class="mt-6"></div>
+        </div>
+    </div>
+
+    <script>
+        // Dados antigos do registros_nutricionais.json
+        const dadosAntigos = {
+            "registros": {
+                "2025-08-23": [
+                    {
+                        "alimento": "quinoa",
+                        "peso": 100.0,
+                        "categoria": "Carboidrato",
+                        "proteina": 4.4,
+                        "carboidrato": 21.3,
+                        "gordura": 1.9,
+                        "calorias": 120.0,
+                        "fibra": 2.8,
+                        "beneficios": [
+                            "🌾 Proteína completa vegetal",
+                            "🔄 Fibra para saciedade",
+                            "💪 Magnésio para relaxamento muscular",
+                            "⚡ Ferro para energia",
+                            "🧠 Vitaminas B para cognição"
+                        ],
+                        "hora": "03:14"
+                    },
+                    {
+                        "alimento": "batata doce",
+                        "peso": 120.0,
+                        "categoria": "Carboidrato",
+                        "proteina": 1.9,
+                        "carboidrato": 24.1,
+                        "gordura": 0.1,
+                        "calorias": 103.0,
+                        "fibra": 3.6,
+                        "beneficios": [
+                            "🍠 Carboidrato complexo de baixo IG",
+                            "👁️ Beta-caroteno para visão",
+                            "💪 Vitamina C para imunidade",
+                            "🔄 Fibra para saciedade",
+                            "⚡ Potássio para contração muscular"
+                        ],
+                        "hora": "03:15"
+                    },
+                    {
+                        "alimento": "brocolis",
+                        "peso": 100.0,
+                        "categoria": "Vegetal",
+                        "proteina": 2.8,
+                        "carboidrato": 6.6,
+                        "gordura": 0.4,
+                        "calorias": 34.0,
+                        "fibra": 2.6,
+                        "beneficios": [
+                            "🥦 Sulforafano para detoxificação",
+                            "💪 Vitamina C para imunidade",
+                            "🦴 Cálcio para ossos",
+                            "👁️ Luteína para visão",
+                            "🔄 Fibra para saúde intestinal"
+                        ],
+                        "hora": "03:15"
+                    },
+                    {
+                        "alimento": "contra file",
+                        "peso": 150.0,
+                        "categoria": "Proteína",
+                        "proteina": 39.0,
+                        "carboidrato": 0.0,
+                        "gordura": 22.5,
+                        "calorias": 375.0,
+                        "fibra": 0.0,
+                        "beneficios": [
+                            "🥩 Proteína de alto valor biológico",
+                            "💪 Rico em creatina natural",
+                            "🩸 Excelente fonte de ferro heme",
+                            "🧠 Contém vitamina B12 para cognição",
+                            "💪 Zinco para produção de testosterona"
+                        ],
+                        "hora": "03:15"
+                    }
+                ],
+                "2025-08-22": [
+                    {
+                        "alimento": "quinoa",
+                        "peso": 100.0,
+                        "categoria": "Carboidrato",
+                        "proteina": 4.4,
+                        "carboidrato": 21.3,
+                        "gordura": 1.9,
+                        "calorias": 120.0,
+                        "fibra": 2.8,
+                        "beneficios": [
+                            "🌾 Proteína completa vegetal",
+                            "🔄 Fibra para saciedade",
+                            "💪 Magnésio para relaxamento muscular",
+                            "⚡ Ferro para energia",
+                            "🧠 Vitaminas B para cognição"
+                        ],
+                        "hora": "23:00"
+                    },
+                    {
+                        "alimento": "contra file",
+                        "peso": 150.0,
+                        "categoria": "Proteína",
+                        "proteina": 39.0,
+                        "carboidrato": 0.0,
+                        "gordura": 22.5,
+                        "calorias": 375.0,
+                        "fibra": 0.0,
+                        "beneficios": [
+                            "🥩 Proteína de alto valor biológico",
+                            "💪 Rico em creatina natural",
+                            "🩸 Excelente fonte de ferro heme",
+                            "🧠 Contém vitamina B12 para cognição",
+                            "💪 Zinco para produção de testosterona"
+                        ],
+                        "hora": "23:00"
+                    },
+                    {
+                        "alimento": "batata doce",
+                        "peso": 150.0,
+                        "categoria": "Carboidrato",
+                        "proteina": 2.4,
+                        "carboidrato": 30.2,
+                        "gordura": 0.2,
+                        "calorias": 129.0,
+                        "fibra": 4.5,
+                        "beneficios": [
+                            "🍠 Carboidrato complexo de baixo IG",
+                            "👁️ Beta-caroteno para visão",
+                            "💪 Vitamina C para imunidade",
+                            "🔄 Fibra para saciedade",
+                            "⚡ Potássio para contração muscular"
+                        ],
+                        "hora": "23:00"
+                    },
+                    {
+                        "alimento": "brocolis",
+                        "peso": 100.0,
+                        "categoria": "Vegetal",
+                        "proteina": 2.8,
+                        "carboidrato": 6.6,
+                        "gordura": 0.4,
+                        "calorias": 34.0,
+                        "fibra": 2.6,
+                        "beneficios": [
+                            "🥦 Sulforafano para detoxificação",
+                            "💪 Vitamina C para imunidade",
+                            "🦴 Cálcio para ossos",
+                            "👁️ Luteína para visão",
+                            "🔄 Fibra para saúde intestinal"
+                        ],
+                        "hora": "23:00"
+                    }
+                ]
+            }
+        };
+
+        // Mostrar dados antigos
+        function mostrarDadosAntigos() {
+            const container = document.getElementById('dados-antigos');
+            let html = '<div class="space-y-2">';
+            
+            Object.keys(dadosAntigos.registros).forEach(data => {
+                const refeicoes = dadosAntigos.registros[data];
+                html += `<div class="border-l-4 border-blue-400 pl-3">`;
+                html += `<strong>${data}:</strong> ${refeicoes.length} refeições<br>`;
+                refeicoes.forEach(refeicao => {
+                    html += `• ${refeicao.alimento} (${refeicao.hora})<br>`;
+                });
+                html += `</div>`;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Converter dados para o novo formato
+        function converterDados() {
+            const dadosConvertidos = {};
+            
+            Object.keys(dadosAntigos.registros).forEach(data => {
+                const refeicoes = dadosAntigos.registros[data];
+                dadosConvertidos[data] = [];
+                
+                refeicoes.forEach((refeicao, index) => {
+                    const novaRefeicao = {
+                        id: Date.now() + index,
+                        horario: refeicao.hora,
+                        alimentos: [`${refeicao.alimento} (${refeicao.peso}g)`],
+                        ingredientes: [{
+                            ingrediente: {
+                                name: refeicao.alimento,
+                                category: refeicao.categoria,
+                                calories: refeicao.calorias,
+                                protein: refeicao.proteina,
+                                carbs: refeicao.carboidrato,
+                                fat: refeicao.gordura,
+                                fiber: refeicao.fibra
+                            },
+                            quantidade: refeicao.peso
+                        }],
+                        calorias: refeicao.calorias,
+                        proteina: refeicao.proteina,
+                        carbs: refeicao.carboidrato,
+                        gordura: refeicao.gordura,
+                        fibra: refeicao.fibra,
+                        data: data,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    dadosConvertidos[data].push(novaRefeicao);
+                });
+            });
+            
+            // Mostrar dados convertidos
+            mostrarDadosConvertidos(dadosConvertidos);
+            
+            // Salvar no localStorage
+            localStorage.setItem('dadosNutricionais', JSON.stringify(dadosConvertidos));
+            
+            // Mostrar resultado
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = `
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                    <strong>✅ Conversão concluída!</strong><br>
+                    • ${Object.keys(dadosConvertidos).length} dias convertidos<br>
+                    • ${Object.values(dadosConvertidos).flat().length} refeições convertidas<br>
+                    • Dados salvos no localStorage<br>
+                    <a href="dashboard.html" class="text-blue-600 hover:underline">→ Ir para o Dashboard</a>
+                </div>
+            `;
+        }
+
+        // Mostrar dados convertidos
+        function mostrarDadosConvertidos(dadosConvertidos) {
+            const container = document.getElementById('dados-convertidos');
+            let html = '<div class="space-y-2">';
+            
+            Object.keys(dadosConvertidos).forEach(data => {
+                const refeicoes = dadosConvertidos[data];
+                html += `<div class="border-l-4 border-green-400 pl-3">`;
+                html += `<strong>${data}:</strong> ${refeicoes.length} refeições<br>`;
+                refeicoes.forEach(refeicao => {
+                    html += `• ${refeicao.horario} - ${refeicao.alimentos.join(', ')}<br>`;
+                });
+                html += `</div>`;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            mostrarDadosAntigos();
+        });
+    </script>
+</body>
+</html>
