@@ -159,10 +159,39 @@ class CloudSync {
             
             // Se dados nutricionais mudaram, sincronizar automaticamente
             if (key === 'dadosNutricionais' && window.cloudSync) {
+                console.log('🔄 Dados nutricionais alterados, sincronizando...');
                 setTimeout(() => {
                     window.cloudSync.saveToCloud(JSON.parse(value));
                 }, 1000); // Aguardar 1 segundo para evitar muitas sincronizações
             }
+        };
+    }
+
+    // Forçar sincronização manual
+    async forceSync() {
+        console.log('🔄 Forçando sincronização...');
+        const localData = localStorage.getItem('dadosNutricionais');
+        if (localData) {
+            const success = await this.saveToCloud(JSON.parse(localData));
+            if (success) {
+                this.showNotification('✅ Sincronização forçada concluída!', 'success');
+            }
+        }
+    }
+
+    // Verificar status da sincronização
+    async checkSyncStatus() {
+        const localData = localStorage.getItem('dadosNutricionais');
+        const cloudData = await this.loadFromCloud();
+        
+        console.log('📊 Status da sincronização:');
+        console.log('Local:', localData ? JSON.parse(localData) : 'vazio');
+        console.log('Cloud:', cloudData);
+        
+        return {
+            local: localData ? JSON.parse(localData) : null,
+            cloud: cloudData,
+            isOnline: this.isOnline
         };
     }
 
@@ -171,7 +200,18 @@ class CloudSync {
         if (this.isOnline) {
             const cloudData = await this.loadFromCloud();
             if (cloudData) {
-                localStorage.setItem('dadosNutricionais', JSON.stringify(cloudData));
+                // Verificar se os dados locais são mais recentes
+                const localData = localStorage.getItem('dadosNutricionais');
+                if (localData) {
+                    const localObj = JSON.parse(localData);
+                    const cloudObj = cloudData;
+                    
+                    // Mesclar dados (manter ambos se houver conflitos)
+                    const dadosMesclados = { ...localObj, ...cloudObj };
+                    localStorage.setItem('dadosNutricionais', JSON.stringify(dadosMesclados));
+                } else {
+                    localStorage.setItem('dadosNutricionais', JSON.stringify(cloudData));
+                }
                 return true;
             }
         }

@@ -107,23 +107,38 @@
                 <h3 class="text-lg sm:text-xl font-semibold mb-4">☁️ Sincronização na Nuvem</h3>
                 <p class="text-gray-600 mb-4">Sincronize seus dados automaticamente entre computador e celular usando a nuvem.</p>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                     <button onclick="salvarNaNuvem()" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg text-center">
                         <div class="text-2xl mb-2">☁️</div>
                         <div class="font-semibold">Salvar na Nuvem</div>
                         <div class="text-sm opacity-90">Enviar dados para a nuvem</div>
                     </button>
-                    
+
                     <button onclick="carregarDaNuvem()" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg text-center">
                         <div class="text-2xl mb-2">⬇️</div>
                         <div class="font-semibold">Carregar da Nuvem</div>
                         <div class="text-sm opacity-90">Baixar dados da nuvem</div>
                     </button>
-                    
+
                     <button onclick="sincronizacaoAutomatica()" class="bg-purple-500 hover:bg-purple-600 text-white p-4 rounded-lg text-center">
                         <div class="text-2xl mb-2">🔄</div>
                         <div class="font-semibold">Sincronização Automática</div>
                         <div class="text-sm opacity-90">Sincronizar automaticamente</div>
+                    </button>
+                </div>
+
+                <!-- Botões de Debug -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <button onclick="forcarSincronizacao()" class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-lg text-center">
+                        <div class="text-xl mb-1">⚡</div>
+                        <div class="font-semibold">Forçar Sincronização</div>
+                        <div class="text-sm opacity-90">Sincronizar manualmente</div>
+                    </button>
+
+                    <button onclick="verificarStatus()" class="bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-lg text-center">
+                        <div class="text-xl mb-1">🔍</div>
+                        <div class="font-semibold">Verificar Status</div>
+                        <div class="text-sm opacity-90">Ver dados locais e na nuvem</div>
                     </button>
                 </div>
                 
@@ -231,9 +246,25 @@
         }
 
         async function sincronizacaoAutomatica() {
-            await window.cloudSync.autoSync();
-            syncManager.showNotification('🔄 Sincronização automática concluída!', 'success');
-        }
+    await window.cloudSync.autoSync();
+    syncManager.showNotification('🔄 Sincronização automática concluída!', 'success');
+}
+
+async function forcarSincronizacao() {
+    await window.cloudSync.forceSync();
+}
+
+async function verificarStatus() {
+    const status = await window.cloudSync.checkSyncStatus();
+    console.log('Status da sincronização:', status);
+    
+    let mensagem = '📊 Status da Sincronização:\n';
+    mensagem += `🌐 Online: ${status.isOnline ? 'Sim' : 'Não'}\n`;
+    mensagem += `💾 Dados locais: ${status.local ? 'Presentes' : 'Vazios'}\n`;
+    mensagem += `☁️ Dados na nuvem: ${status.cloud ? 'Presentes' : 'Vazios'}`;
+    
+    alert(mensagem);
+}
 
         // Atualizar status
         function atualizarStatus() {
